@@ -27,4 +27,3 @@ for eventname, _ in pairs(love.handlers) do
     _stack:forward(eventname, ...)
   end
 end
-

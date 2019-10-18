@@ -42,7 +42,7 @@ function love.keypressed(key)
     else
 
         if index == 0 then index = 1 end
-        if index == 931 then index = 929 end
+        if index == #quad then index = #quad - 1 end
 
 
     end
