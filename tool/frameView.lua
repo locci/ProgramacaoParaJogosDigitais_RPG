@@ -22,8 +22,8 @@ function FRAME:getFrame(path)
     local height = 17
     local quad = {}
 
-    for y = 0, animation.spriteSheet:getHeight() - height, height do
-        for x = 0, animation.spriteSheet:getWidth() - width, width do
+    for y = 0, animation.spriteSheet:getHeight() , height do
+        for x = 0, animation.spriteSheet:getWidth() , width do
             table.insert(quad, love.graphics.newQuad(x, y, width, height,
                 animation.spriteSheet:getDimensions()))
         end
