@@ -29,6 +29,14 @@ return {
     priest = {
       frame = { 24, 0 },
       color = 'white'
+    },
+    druid = {
+      frame = { 31, 1 },
+      color = 'red'
+    },
+    giant = {
+    frame = { 2, 22 },
+    color = 'red'
     }
   }
 }
