@@ -1,3 +1,4 @@
+-- luacheck: globals love
 
 local ATLAS_DB    = require 'database.atlas'
 local PALLETE_DB  = require 'database.palette'
@@ -60,4 +61,3 @@ function AtlasRenderer:draw()
 end
 
 return AtlasRenderer
-

@@ -1,3 +1,4 @@
+-- luacheck: globals love
 
 local CharacterStats = require 'common.class' ()
 
@@ -21,4 +22,3 @@ function CharacterStats:draw()
 end
 
 return CharacterStats
-

@@ -1,3 +1,4 @@
+-- luacheck: globals love
 
 local Stack = require 'stack'
 local View  = require 'view'

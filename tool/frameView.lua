@@ -6,6 +6,8 @@
 -- To change this template use File | Settings | File Templates.
 --
 
+-- luacheck: globals love
+
 local FRAME = {}
 
 function FRAME:getFrame(path)

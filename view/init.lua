@@ -1,3 +1,4 @@
+-- luacheck: globals love
 
 local View = require 'common.class' ()
 
@@ -32,4 +33,3 @@ function View:draw()
 end
 
 return View
-

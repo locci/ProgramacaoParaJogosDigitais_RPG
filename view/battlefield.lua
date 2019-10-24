@@ -1,3 +1,4 @@
+-- luacheck: globals love
 
 local Box = require 'common.box'
 local Vec = require 'common.vec'
@@ -25,4 +26,3 @@ function BattleField:draw()
 end
 
 return BattleField
-
