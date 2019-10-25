@@ -9,5 +9,6 @@ return {
     name = "Druid",
     appearance = 'druid',
     max_hp = 25,
+    hero = true,
 }
 

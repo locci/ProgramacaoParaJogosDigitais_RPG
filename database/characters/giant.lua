@@ -9,5 +9,6 @@ return {
     name = "Giant",
     appearance = 'giant',
     max_hp = 35,
+    hero = false,
 }
 

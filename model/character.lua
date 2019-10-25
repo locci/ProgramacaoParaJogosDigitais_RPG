@@ -14,6 +14,10 @@ function Character:get_appearance()
   return self.spec.appearance
 end
 
+function Character:get_side()
+  return self.spec.hero
+end
+
 function Character:get_hp()
   return self.hp, self.spec.max_hp
 end

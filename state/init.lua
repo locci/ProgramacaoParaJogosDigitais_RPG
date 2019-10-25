@@ -1,4 +1,3 @@
-
 local State = require 'common.class' ()
 
 function State:_init(stack)
@@ -25,4 +24,3 @@ function State:call_handler(eventname, ...)
 end
 
 return State
-

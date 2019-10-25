@@ -32,7 +32,7 @@ end
 function PlayerTurnState:_show_cursor()
   local atlas = self:view():get('atlas')
   local sprite_instance = atlas:get(self.character)
-  local cursor = TurnCursor(sprite_instance)
+  local cursor   = TurnCursor(sprite_instance)
   self:view():add('turn_cursor', cursor)
 end
 
@@ -49,14 +49,32 @@ function PlayerTurnState:leave()
   self:view():remove('char_stats')
 end
 
+local combat = {}
+_G.combat = {}
+
 function PlayerTurnState:on_keypressed(key)
   if key == 'down' then
     self.menu:next()
   elseif key == 'up' then
     self.menu:previous()
+  elseif key == 'f' then
+
+    if self.character:get_side() == false and combat[1] ~= nil then
+      print(self.character:get_name())
+      table.insert(combat, self.character)
+      table.insert(_G.combat, combat)
+      print(combat[1]:get_name() .. " " .. combat[2]:get_name())
+      combat = {}
+    end
+
   elseif key == 'return' then
     local option = TURN_OPTIONS[self.menu:current_option()]
     return self:pop({ action = option, character = self.character })
+  elseif key == 'm' then
+    local option = TURN_OPTIONS[self.menu:current_option()]
+    return self:pop({ action = option, character = self.character })
+  elseif key == 's' then
+    table.insert(combat, self.character)
   end
 end
 
