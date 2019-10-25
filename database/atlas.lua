@@ -35,9 +35,20 @@ return {
       color = 'red'
     },
     giant = {
-    frame = { 2, 22 },
-    color = 'red'
+      frame = { 2, 22 },
+      color = 'red'
+    },
+    cancer = {
+      frame = { 24, 5 },
+      color = 'orange'
+    },
+    python = {
+      frame = { 28, 8 },
+      color = 'green'
+    },
+    taurus = {
+      frame = { 31, 5 },
+      color = 'brown'
     }
   }
 }
-

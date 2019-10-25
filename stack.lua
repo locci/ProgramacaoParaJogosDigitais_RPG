@@ -1,3 +1,4 @@
+-- luacheck: globals love
 
 local Stack = require 'common.class' ()
 
@@ -62,4 +63,3 @@ function Stack:get_state(name)
 end
 
 return Stack
-

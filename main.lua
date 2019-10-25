@@ -1,3 +1,4 @@
+-- luacheck: globals love
 
 local Stack = require 'stack'
 local View  = require 'view'
@@ -20,6 +21,10 @@ end
 
 function love.draw()
   _game.view:draw()
+end
+
+function love.keypressed(key)
+  if key == "escape" then love.event.quit() end
 end
 
 for eventname, _ in pairs(love.handlers) do

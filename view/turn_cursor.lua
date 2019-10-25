@@ -1,3 +1,4 @@
+-- luacheck: globals love
 
 local Vec = require 'common.vec'
 local TurnCursor = require 'common.class' ()
@@ -20,4 +21,3 @@ function TurnCursor:draw()
 end
 
 return TurnCursor
-

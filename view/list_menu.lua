@@ -1,3 +1,4 @@
+-- luacheck: globals love
 
 local Vec = require 'common.vec'
 
@@ -71,4 +72,3 @@ function ListMenu:draw()
 end
 
 return ListMenu
-

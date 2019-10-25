@@ -6,6 +6,8 @@
 -- To change this template use File | Settings | File Templates.
 --
 
+-- luacheck: globals love
+
 local FRAME = require "frameView"
 local quad = {}
 local image
@@ -49,7 +51,7 @@ function love.keypressed(key)
 
 end
 
-function love.update(dt)
+function love.update(_)
 
     love.keypressed()
 

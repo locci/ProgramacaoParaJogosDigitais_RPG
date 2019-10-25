@@ -1,3 +1,4 @@
+-- luacheck: globals love
 
 local PALETTE_DB = require 'database.palette'
 local State = require 'state'
@@ -61,5 +62,3 @@ function ChooseQuestState:on_keypressed(key)
 end
 
 return ChooseQuestState
-
-

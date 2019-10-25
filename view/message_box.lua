@@ -1,3 +1,4 @@
+-- luacheck: globals love
 
 local Vec = require 'common.vec'
 local MessageBox = require 'common.class' ()
@@ -25,4 +26,3 @@ function MessageBox:draw()
 end
 
 return MessageBox
-

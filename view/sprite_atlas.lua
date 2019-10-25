@@ -1,3 +1,4 @@
+-- luacheck: globals love
 
 local ATLAS_DB    = require 'database.atlas'
 local PALLETE_DB  = require 'database.palette'
@@ -32,6 +33,8 @@ end
 
 function AtlasRenderer:add(name, pos, sprite_id)
   local instance = { position = pos, sprite_id = sprite_id }
+  print(instance)
+  print(instance.name, instance.pos, instance.sprite_id)
   self.instances[name] = instance
   return instance
 end
@@ -60,4 +63,3 @@ function AtlasRenderer:draw()
 end
 
 return AtlasRenderer
-
