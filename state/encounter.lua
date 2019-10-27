@@ -71,6 +71,7 @@ function EncounterState:update(_)
   return self:push('player_turn', params)
 end
 
+<<<<<<< HEAD
 local pairCombat = function(params)
 
   local message = noHero[1]:get_name()
@@ -98,18 +99,35 @@ local pairCombat = function(params)
   return message, {}
 
 end
+=======
+>>>>>>> 19cbd7e15bb8664b507c017797ea19421dda19f6
 
 local combat = {}
+_G.fightState = true
+
 
 function EncounterState:resume(params)
-  local A = {}
-  local oponente
   if params.action ~= 'Run' then
-    oponente , A = pairCombat(params)
-    --table.insert(combat, A)
-    local message = MESSAGES[params.action]:format(params.character:get_name())
-    self:view():get('message'):set(message .. oponente)
+    if params.action == 'Fight' then
+       _G.fightState = true
+    else
+      _G.fightState = false
+    end
+    if params.action == 'Skill' then
+        print('skill: gera alguma coisa.')
+    end
   else
+    local tab = {}
+    for _, j in ipairs(_G.combat) do
+
+      tab = j
+      local char1 = tab[1]
+      local char2 = tab[2]
+      print(char1:get_name() .. " vs " .. char2:get_name())
+
+    end
+    _G.combat = {}
+    _G.heroSelect = {}
     return self:pop()
   end
 end
