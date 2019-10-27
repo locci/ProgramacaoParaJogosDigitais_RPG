@@ -74,27 +74,25 @@ end
 local pairCombat = function(params)
 
   local message = noHero[1]:get_name()
-
-  for i, param in pairs(params) do
-    print(i)
-    print(param, " = {")
-    print()
-    if type(param) == "table" then
-      for j, p in pairs(param) do
-        print(j)
-        print(p)
-        print()
-        if type(p) == "table" then
-          for k, q in pairs(p) do
-            print(k)
-            print(q)
-            print()
-          end
-        end
-      end
-
-    end
-    print("}")
+  --[[
+      params ={
+        character = {
+          hp = 20,
+          spec = {
+            appearance = "knight",
+            hero = true,
+            name= "Veteran Warrior",
+            max_hp = 20
+          }
+        },
+        action = "Fight"
+      }
+  ]]
+  local crcter = params.character
+  crcter.hp = math.max(0, (crcter.hp - 10))
+  print(crcter.hp)
+  if(crcter.hp == 0) then
+    print(crcter.spec.name, " morreu")
   end
 
   return message, {}
