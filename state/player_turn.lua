@@ -50,31 +50,37 @@ function PlayerTurnState:leave()
 end
 
 local combat = {}
+_G.heroSelect = {}
 _G.combat = {}
 
+local checkTable = function(element)
+  for _, j in ipairs(_G.heroSelect) do
+    if j == element then return false end
+  end
+  return true
+end
+
 function PlayerTurnState:on_keypressed(key)
+
   if key == 'down' then
     self.menu:next()
   elseif key == 'up' then
     self.menu:previous()
-  elseif key == 'f' then
-
-    if self.character:get_side() == false and combat[1] ~= nil then
-      print(self.character:get_name())
+  elseif key == 'f'  and _G.fightState then
+    if self.character:get_side() == false and combat[1] ~= nil and combat[2] == nil then
       table.insert(combat, self.character)
       table.insert(_G.combat, combat)
-      print(combat[1]:get_name() .. " " .. combat[2]:get_name())
       combat = {}
     end
-
   elseif key == 'return' then
     local option = TURN_OPTIONS[self.menu:current_option()]
     return self:pop({ action = option, character = self.character })
-  elseif key == 'm' then
-    local option = TURN_OPTIONS[self.menu:current_option()]
-    return self:pop({ action = option, character = self.character })
   elseif key == 's' then
-    table.insert(combat, self.character)
+    if self.character:get_side() and combat[1] == nil and _G.fightState and
+            checkTable(self.character) then
+      table.insert(_G.heroSelect, self.character)
+      table.insert(combat, self.character)
+    end
   end
 end
 
