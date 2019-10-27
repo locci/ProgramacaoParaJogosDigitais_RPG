@@ -22,5 +22,16 @@ function Character:get_hp()
   return self.hp, self.spec.max_hp
 end
 
-return Character
+function Character:get_critical()
+  return self.critical
+end
 
+function Character:get_hit()
+  return self.hit
+end
+
+function Character:get_damage()
+  return self.damage
+end
+
+return Character

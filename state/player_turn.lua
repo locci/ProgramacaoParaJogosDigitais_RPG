@@ -61,26 +61,35 @@ local checkTable = function(element)
 end
 
 function PlayerTurnState:on_keypressed(key)
-
+  print("playerturn")
   if key == 'down' then
     self.menu:next()
   elseif key == 'up' then
     self.menu:previous()
-  elseif key == 'f'  and _G.fightState then
+
+  elseif key == 'v'  and _G.fightState then
     if self.character:get_side() == false and combat[1] ~= nil and combat[2] == nil then
+      print("v + fighstate")
+      print("vilao = ", self.character.spec.name)
       table.insert(combat, self.character)
       table.insert(_G.combat, combat)
       combat = {}
     end
+
   elseif key == 'return' then
     local option = TURN_OPTIONS[self.menu:current_option()]
     return self:pop({ action = option, character = self.character })
-  elseif key == 's' then
+
+  elseif key == 'h' then
     if self.character:get_side() and combat[1] == nil and _G.fightState and
             checkTable(self.character) then
+      print("heroi = ", self.character.spec.name)
       table.insert(_G.heroSelect, self.character)
       table.insert(combat, self.character)
     end
+
+  elseif key == "escape" then
+    love.event.quit()
   end
 end
 

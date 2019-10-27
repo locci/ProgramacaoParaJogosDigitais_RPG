@@ -6,6 +6,7 @@ local SpriteAtlas = require 'view.sprite_atlas'
 local BattleField = require 'view.battlefield'
 local State = require 'state'
 local Stack = require 'stack'
+local Clash = require 'clashCalc'
 _G.hero   = {}
 _G.noHero = {}
 
@@ -71,36 +72,6 @@ function EncounterState:update(_)
   return self:push('player_turn', params)
 end
 
-<<<<<<< HEAD
-local pairCombat = function(params)
-
-  local message = noHero[1]:get_name()
-  --[[
-      params ={
-        character = {
-          hp = 20,
-          spec = {
-            appearance = "knight",
-            hero = true,
-            name= "Veteran Warrior",
-            max_hp = 20
-          }
-        },
-        action = "Fight"
-      }
-  ]]
-  local crcter = params.character
-  crcter.hp = math.max(0, (crcter.hp - 10))
-  print(crcter.hp)
-  if(crcter.hp == 0) then
-    print(crcter.spec.name, " morreu")
-  end
-
-  return message, {}
-
-end
-=======
->>>>>>> 19cbd7e15bb8664b507c017797ea19421dda19f6
 
 local combat = {}
 _G.fightState = true
@@ -118,13 +89,28 @@ function EncounterState:resume(params)
     end
   else
     local tab = {}
+    print("combat", _G.combat)
     for _, j in ipairs(_G.combat) do
 
       tab = j
       local char1 = tab[1]
       local char2 = tab[2]
-      print(char1:get_name() .. " vs " .. char2:get_name())
 
+        print(char1:get_name() .. " vs " .. char2:get_name())
+      while char1:get_hp() > 0 and char2:get_hp() > 0 do
+        print(char1:get_name(), char1:get_hp())
+        print(char2:get_name(), char2:get_hp())
+        print("antes", char1)
+        print(char1.spec.hit)
+        local aux = char1.spec.hit
+        print(aux)
+        if(Clash.acerto(aux)) then
+          char2.spec.hp = char2.spec.hp - char1:get_damage()
+        end
+        if(Clash.acerto(char2.spec.hit)) then
+          char1.spec.hp = char1.spec.hp - char2:get_damage()
+        end
+      end
     end
     _G.combat = {}
     _G.heroSelect = {}
