@@ -1,6 +1,6 @@
 return {
     title = 'Battle of Signs',
-    party = { 'warrior', 'druid'},
+    party = { 'python', 'cancer'},
     encounters = {
         { 'cancer', 'python', 'taurus' }
     }
