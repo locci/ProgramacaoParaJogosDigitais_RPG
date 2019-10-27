@@ -75,6 +75,28 @@ local pairCombat = function(params)
 
   local message = noHero[1]:get_name()
 
+  for i, param in pairs(params) do
+    print(i)
+    print(param, " = {")
+    print()
+    if type(param) == "table" then
+      for j, p in pairs(param) do
+        print(j)
+        print(p)
+        print()
+        if type(p) == "table" then
+          for k, q in pairs(p) do
+            print(k)
+            print(q)
+            print()
+          end
+        end
+      end
+
+    end
+    print("}")
+  end
+
   return message, {}
 
 end
