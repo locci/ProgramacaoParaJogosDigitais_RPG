@@ -4,6 +4,8 @@ local CharacterStats = require 'view.character_stats'
 local TurnCursor = require 'view.turn_cursor'
 local ListMenu = require 'view.list_menu'
 local State = require 'state'
+local MessageBox = require 'view.message_box'
+local BattleField = require 'view.battlefield'
 
 local PlayerTurnState = require 'common.class' (State)
 
@@ -60,6 +62,10 @@ local checkTable = function(element)
   return true
 end
 
+local battlefield = BattleField()
+local bfbox = battlefield.bounds
+local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
+
 function PlayerTurnState:on_keypressed(key)
 
   if key == 'down' then
@@ -70,6 +76,8 @@ function PlayerTurnState:on_keypressed(key)
     if self.character:get_side() == false and combat[1] ~= nil and combat[2] == nil then
       table.insert(combat, self.character)
       table.insert(_G.combat, combat)
+      self:view():add('message', message)
+      message:set("Combat selected: " .. combat[1]:get_name() .. " vs " .. combat[2]:get_name())
       combat = {}
     end
   elseif key == 'return' then

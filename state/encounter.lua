@@ -25,6 +25,8 @@ function EncounterState:_init(stack)
   self.next_turn = nil
 end
 
+local cont = 1
+
 function EncounterState:enter(params)
   local atlas = SpriteAtlas()
   local battlefield = BattleField()
@@ -94,6 +96,7 @@ function EncounterState:resume(params)
       local char1 = tab[1]
       local char2 = tab[2]
       print(char1:get_name() .. " vs " .. char2:get_name())
+      print(char1:get_hp() .. " vs " .. char2:get_hp())
 
     end
     _G.combat = {}
