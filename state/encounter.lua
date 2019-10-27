@@ -95,5 +95,3 @@ function EncounterState:resume(params)
 end
 
 return EncounterState
-
-
