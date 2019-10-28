@@ -10,5 +10,14 @@ return {
     appearance = 'druid',
     max_hp = 25,
     hero = true,
+    combat = {
+        power = 10,
+        resistance = 15,
+        velocity = 8,
+    },
+    uncertainty = {
+        hitChance = 80,
+        hitCritical = 20,
+    },
 }
 
