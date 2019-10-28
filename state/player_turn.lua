@@ -1,15 +1,15 @@
 
 local Vec = require 'common.vec'
-local CharacterStats = require 'view.character_stats'
-local TurnCursor = require 'view.turn_cursor'
-local ListMenu = require 'view.list_menu'
 local State = require 'state'
 local MessageBox = require 'view.message_box'
 local BattleField = require 'view.battlefield'
+local CharacterStats = require 'view.character_stats'
+local TurnCursor = require 'view.turn_cursor'
+local ListMenu = require 'view.list_menu'
 
 local PlayerTurnState = require 'common.class' (State)
 
-local TURN_OPTIONS = { 'Fight', 'Skill', 'Item', 'Run' }
+local TURN_OPTIONS = { 'Fight', 'Skill', 'Item', 'Store' ,'Run' }
 
 function PlayerTurnState:_init(stack)
   self:super(stack)

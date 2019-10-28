@@ -9,5 +9,15 @@ return {
     resistance = 15,
     velocity = 8,
   },
+  uncertainty = {
+    hitChance = 80,
+    hitCritical = 20,
+  },
+  skill={
+
+  },
+  item = {
+
+  },
 }
 

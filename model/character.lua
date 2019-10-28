@@ -22,5 +22,21 @@ function Character:get_hp()
   return self.hp, self.spec.max_hp
 end
 
+function Character:get_item()
+  return self.item
+end
+
+function Character:get_power()
+  return self.spec.combat['power']
+end
+
+function Character:get_resistance()
+  return self.spec.combat['resistance']
+end
+
+function Character:get_velocity()
+  return self.spec.combat['velocity']
+end
+
 return Character
 

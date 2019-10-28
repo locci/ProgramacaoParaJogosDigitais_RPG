@@ -19,5 +19,11 @@ return {
         hitChance = 80,
         hitCritical = 20,
     },
+    skill={
+
+    },
+    item = {
+
+    },
 }
 
