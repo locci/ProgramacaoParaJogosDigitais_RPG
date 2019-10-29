@@ -2,6 +2,7 @@
 
 local Stack = require 'stack'
 local View  = require 'view'
+_G.team = {}
 
 local _game
 local _stack

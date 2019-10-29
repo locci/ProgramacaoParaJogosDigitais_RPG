@@ -30,8 +30,6 @@ function EncounterState:_init(stack)
   self.next_turn = nil
 end
 
-local cont = 1
-
 function EncounterState:enter(params)
   local atlas = SpriteAtlas()
   local battlefield = BattleField()
@@ -95,14 +93,6 @@ function EncounterState:resume(params)
     end
     if params.action == 'Skill' then
         print('skill: gera alguma coisa.')
-    end
-    if params.action == 'Store' then
-      self:view():add('message', message)
-      local str  = params.character:get_name()
-      local item = {}
-      item =  params.character:get_item()
-
-      message:set("Store: " .. str .. ' can buy \n' .. ' comprar ')
     end
   else
     local tab = {}

@@ -9,7 +9,7 @@ local ListMenu = require 'view.list_menu'
 
 local PlayerTurnState = require 'common.class' (State)
 
-local TURN_OPTIONS = { 'Fight', 'Skill', 'Item', 'Store' ,'Run' }
+local TURN_OPTIONS = { 'Fight', 'Skill', 'Item', 'Run' }
 
 function PlayerTurnState:_init(stack)
   self:super(stack)
@@ -80,6 +80,9 @@ function PlayerTurnState:on_keypressed(key)
       message:set("Combat selected: " .. combat[1]:get_name() .. " vs " .. combat[2]:get_name())
       combat = {}
     end
+  elseif key == 'k' then
+    table.insert(_G.team, self.character)
+    print(#_G.team)
   elseif key == 'return' then
     local option = TURN_OPTIONS[self.menu:current_option()]
     return self:pop({ action = option, character = self.character })
@@ -88,6 +91,9 @@ function PlayerTurnState:on_keypressed(key)
             checkTable(self.character) then
       table.insert(_G.heroSelect, self.character)
       table.insert(combat, self.character)
+      self:view():add('message', message)
+      local str = "You select The " .. self.character:get_name()
+      message:set(str)
     end
   end
 end

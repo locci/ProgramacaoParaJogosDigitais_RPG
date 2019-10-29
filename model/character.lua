@@ -38,5 +38,9 @@ function Character:get_velocity()
   return self.spec.combat['velocity']
 end
 
+function Character:get_money()
+  return self.spec.px['money']
+end
+
 return Character
 
