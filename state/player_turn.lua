@@ -6,6 +6,7 @@ local BattleField = require 'view.battlefield'
 local CharacterStats = require 'view.character_stats'
 local TurnCursor = require 'view.turn_cursor'
 local ListMenu = require 'view.list_menu'
+local Sound = require 'common.sound'
 
 local PlayerTurnState = require 'common.class' (State)
 
@@ -27,7 +28,7 @@ end
 function PlayerTurnState:_show_menu()
   local bfbox = self:view():get('battlefield').bounds
   self.menu:reset_cursor()
-  self.menu.position:set(bfbox.right + 32, (bfbox.top + bfbox.bottom) / 2)
+  self.menu.position:set(bfbox.right + 32,  ((bfbox.top + bfbox.bottom) / 2) + 40)
   self:view():add('turn_menu', self.menu)
 end
 
@@ -74,6 +75,7 @@ function PlayerTurnState:on_keypressed(key)
     self.menu:previous()
   elseif key == 'f'  and _G.fightState then
     if self.character:get_side() == false and combat[1] ~= nil and combat[2] == nil then
+      Sound:play('monster')
       table.insert(combat, self.character)
       table.insert(_G.combat, combat)
       self:view():add('message', message)
@@ -89,6 +91,7 @@ function PlayerTurnState:on_keypressed(key)
   elseif key == 's' then
     if self.character:get_side() and combat[1] == nil and _G.fightState and
             checkTable(self.character) then
+      Sound:play('sword')
       table.insert(_G.heroSelect, self.character)
       table.insert(combat, self.character)
       self:view():add('message', message)
