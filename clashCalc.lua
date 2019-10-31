@@ -1,9 +1,9 @@
 
 local clashCalc = {}
 
-function clashCalc:acerto()
+function clashCalc:acerto(hitChance)
   local rand = math.random(1, 100)
-  if rand / 100 > .5 then
+  if rand > hitChance then
     return true
   end
   return false

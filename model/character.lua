@@ -42,6 +42,11 @@ function Character:get_money()
   return self.spec.px['money']
 end
 
+function Character:get_uncertainty()
+  local uncert = self.spec.uncertainty
+  return uncert.hitChance, uncert.hitCritical
+end
+
 function Character:hit(power)
   self.hp = math.max(0, self.hp - power)
 end

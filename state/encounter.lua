@@ -99,26 +99,39 @@ function EncounterState:resume(params)
     local tab = {}
     print("combat", _G.combat)
     for _, j in ipairs(_G.combat) do
+      print()
+      tab = j
+      print(tab)
+      for i, aux in pairs(j) do
+        if aux.hp then print(aux.hp) end
+        print(i, aux)
+        for k, auxk in pairs(aux) do
+          print(k, auxk)
+        end
+      end
+    end
+    for _, j in ipairs(_G.combat) do
       tab = j
       local char1 = tab[1]
       local char2 = tab[2]
 
-        print(char1:get_name() .. " vs " .. char2:get_name())
+      print(char1:get_name() .. " vs " .. char2:get_name())
       while char1:get_hp() > 0 and char2:get_hp() > 0 do
-        print(char1:get_name(), char1:get_hp())
+        --[[print(char1:get_name(), char1:get_hp())
         print(char2:get_name(), char2:get_hp())
         print("antes", char1)
-        print(char1.spec.hit)
-        local aux = char1.spec.hit
-        print(aux)
-        if(Clash.acerto()) then
+        print(char1.spec.hit)]]
+        --local aux = char1.spec.hit
+
+        if(Clash.acerto(char1:get_uncertainty())) then
           char2:hit(char1:get_power())
-          print("acertou", char1.get_power())
+          print("heroi acertou \nvida inimigo:", char2:get_hp())
         end
-        if(Clash.acerto(char2.spec.hit)) then
+        if(Clash.acerto(char2:get_uncertainty())) then
           char1:hit(char2:get_power())
-          print("acertou", char2.get_power())
+          print("inimigo acertou \nvida heroi:", char1:get_hp())
         end
+        print()
       end
     end
     _G.combat = {}
