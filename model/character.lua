@@ -42,8 +42,8 @@ function Character:get_money()
   return self.spec.px['money']
 end
 
-function Character:get_damage()
-  return self.damage
+function Character:hit(power)
+  self.hp = math.max(0, self.hp - power)
 end
 
 return Character

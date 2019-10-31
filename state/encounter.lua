@@ -10,6 +10,7 @@ local MessageBox = require 'view.message_box'
 local CharacterStats = require 'view.character_stats'
 local TurnCursor = require 'view.turn_cursor'
 local ListMenu = require 'view.list_menu'
+local Clash = require 'clashCalc'
 
 _G.hero   = {}
 _G.noHero = {}
@@ -110,11 +111,13 @@ function EncounterState:resume(params)
         print(char1.spec.hit)
         local aux = char1.spec.hit
         print(aux)
-        if(Clash.acerto(aux)) then
-          char2.spec.hp = char2.spec.hp - char1:get_damage()
+        if(Clash.acerto()) then
+          char2:hit(char1:get_power())
+          print("acertou", char1.get_power())
         end
         if(Clash.acerto(char2.spec.hit)) then
-          char1.spec.hp = char1.spec.hp - char2:get_damage()
+          char1:hit(char2:get_power())
+          print("acertou", char2.get_power())
         end
       end
     end
