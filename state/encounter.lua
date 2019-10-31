@@ -6,7 +6,11 @@ local SpriteAtlas = require 'view.sprite_atlas'
 local BattleField = require 'view.battlefield'
 local State = require 'state'
 local Stack = require 'stack'
-local Clash = require 'clashCalc'
+local MessageBox = require 'view.message_box'
+local CharacterStats = require 'view.character_stats'
+local TurnCursor = require 'view.turn_cursor'
+local ListMenu = require 'view.list_menu'
+
 _G.hero   = {}
 _G.noHero = {}
 
@@ -76,6 +80,9 @@ end
 local combat = {}
 _G.fightState = true
 
+local battlefield = BattleField()
+local bfbox = battlefield.bounds
+local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
 
 function EncounterState:resume(params)
   if params.action ~= 'Run' then
@@ -91,7 +98,6 @@ function EncounterState:resume(params)
     local tab = {}
     print("combat", _G.combat)
     for _, j in ipairs(_G.combat) do
-
       tab = j
       local char1 = tab[1]
       local char2 = tab[2]
@@ -114,6 +120,8 @@ function EncounterState:resume(params)
     end
     _G.combat = {}
     _G.heroSelect = {}
+    --precisa colocar aqui uma condiçao
+    --so vai para a proxima quest quando os herois vencerem, se os monstros vencerem paraq o jogo
     return self:pop()
   end
 end

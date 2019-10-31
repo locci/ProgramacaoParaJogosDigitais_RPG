@@ -1,9 +1,12 @@
 
 local Vec = require 'common.vec'
+local State = require 'state'
+local MessageBox = require 'view.message_box'
+local BattleField = require 'view.battlefield'
 local CharacterStats = require 'view.character_stats'
 local TurnCursor = require 'view.turn_cursor'
 local ListMenu = require 'view.list_menu'
-local State = require 'state'
+local Sound = require 'common.sound'
 
 local PlayerTurnState = require 'common.class' (State)
 
@@ -25,7 +28,7 @@ end
 function PlayerTurnState:_show_menu()
   local bfbox = self:view():get('battlefield').bounds
   self.menu:reset_cursor()
-  self.menu.position:set(bfbox.right + 32, (bfbox.top + bfbox.bottom) / 2)
+  self.menu.position:set(bfbox.right + 32,  ((bfbox.top + bfbox.bottom) / 2) + 40)
   self:view():add('turn_menu', self.menu)
 end
 
@@ -60,32 +63,44 @@ local checkTable = function(element)
   return true
 end
 
+local battlefield = BattleField()
+local bfbox = battlefield.bounds
+local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
+
 function PlayerTurnState:on_keypressed(key)
-  print("playerturn")
+  print(key)
   if key == 'down' then
     self.menu:next()
   elseif key == 'up' then
     self.menu:previous()
-
-  elseif key == 'v'  and _G.fightState then
+  elseif key == 'm'  and _G.fightState then
+    print(self.character:get_side() == false, combat[1] ~= nil, combat[2] == nil)
     if self.character:get_side() == false and combat[1] ~= nil and combat[2] == nil then
-      print("v + fighstate")
-      print("vilao = ", self.character.spec.name)
+      Sound:play("monster")
       table.insert(combat, self.character)
       table.insert(_G.combat, combat)
+      self:view():add('message', message)
+      message:set("Combat selected: " .. combat[1]:get_name() .. " vs " .. combat[2]:get_name())
       combat = {}
     end
-
+  elseif key == 'k' then
+    table.insert(_G.team, self.character)
+    print(#_G.team)
   elseif key == 'return' then
     local option = TURN_OPTIONS[self.menu:current_option()]
     return self:pop({ action = option, character = self.character })
-
   elseif key == 'h' then
+    print(self.character:get_side(), combat[1] == nil, _G.fightState,
+            checkTable(self.character))
     if self.character:get_side() and combat[1] == nil and _G.fightState and
             checkTable(self.character) then
-      print("heroi = ", self.character.spec.name)
+      Sound:play('sword')
       table.insert(_G.heroSelect, self.character)
       table.insert(combat, self.character)
+      self:view():add('message', message)
+      local str = "You select The " .. self.character:get_name()
+      print(str)
+      message:set(str)
     end
 
   elseif key == "escape" then
