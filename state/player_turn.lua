@@ -68,14 +68,15 @@ local bfbox = battlefield.bounds
 local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
 
 function PlayerTurnState:on_keypressed(key)
-
+  print(key)
   if key == 'down' then
     self.menu:next()
   elseif key == 'up' then
     self.menu:previous()
-  elseif key == 'f'  and _G.fightState then
+  elseif key == 'm'  and _G.fightState then
+    print(self.character:get_side() == false, combat[1] ~= nil, combat[2] == nil)
     if self.character:get_side() == false and combat[1] ~= nil and combat[2] == nil then
-      Sound:play('monster')
+      Sound:play("monster")
       table.insert(combat, self.character)
       table.insert(_G.combat, combat)
       self:view():add('message', message)
@@ -88,7 +89,9 @@ function PlayerTurnState:on_keypressed(key)
   elseif key == 'return' then
     local option = TURN_OPTIONS[self.menu:current_option()]
     return self:pop({ action = option, character = self.character })
-  elseif key == 's' then
+  elseif key == 'h' then
+    print(self.character:get_side(), combat[1] == nil, _G.fightState,
+            checkTable(self.character))
     if self.character:get_side() and combat[1] == nil and _G.fightState and
             checkTable(self.character) then
       Sound:play('sword')
@@ -96,8 +99,11 @@ function PlayerTurnState:on_keypressed(key)
       table.insert(combat, self.character)
       self:view():add('message', message)
       local str = "You select The " .. self.character:get_name()
+      print(str)
       message:set(str)
     end
+  elseif key == 'escape' then
+    love.event.quit()
   end
 end
 
