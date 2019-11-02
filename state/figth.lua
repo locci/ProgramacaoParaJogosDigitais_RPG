@@ -15,7 +15,7 @@ local Clash = require 'clashCalc'
 _G.hero   = {}
 _G.noHero = {}
 
-local EncounterState = require 'common.class' (State)
+local FigthState = require 'common.class' (State)
 
 local CHARACTER_GAP = 96
 
@@ -25,13 +25,13 @@ local MESSAGES = {
   Item = "%s used an item",
 }
 
-function EncounterState:_init(stack)
+function FigthState:_init(stack)
   self:super(stack)
   self.turns = nil
   self.next_turn = nil
 end
 
-function EncounterState:enter(params)
+function FigthState:enter(params)
   local atlas = SpriteAtlas()
   local battlefield = BattleField()
   local bfbox = battlefield.bounds
@@ -63,14 +63,14 @@ function EncounterState:enter(params)
   message:set(str)
 end
 
-function EncounterState:leave()
+function FigthState:leave()
   self:view():get('atlas'):clear()
   self:view():remove('atlas')
   self:view():remove('battlefield')
   self:view():remove('message')
 end
 
-function EncounterState:update(_)
+function FigthState:update(_)
   local current_character = self.turns[self.next_turn]
   self.next_turn = self.next_turn % #self.turns + 1
   local params = { current_character = current_character }
@@ -85,7 +85,7 @@ local battlefield = BattleField()
 local bfbox = battlefield.bounds
 local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
 
-function EncounterState:resume(params)
+function FigthState:resume(params)
   if params.action ~= 'Run' then
     if params.action == 'Fight' then
        _G.fightState = true
@@ -113,19 +113,17 @@ function EncounterState:resume(params)
         if(Clash.acerto(char1:get_uncertainty())) then
           char2:hit(char1:get_power())
           print("heroi acertou \nvida inimigo:", char2:get_hp())
-          if(char2:get_hp() <= 0) then break end
+          if(char2:get_hp() <= 0) then break
         end
         if(Clash.acerto(char2:get_uncertainty())) then
           char1:hit(char2:get_power())
           print("inimigo acertou \nvida heroi:", char1:get_hp())
-          if(char1:get_hp() <= 0) then break end
-        end
+          if(char1:get_hp() <= 0) then breakend
         print()
         --[[statsChar1:draw()
         statsChar2:draw()]]
-
-        --[[self:view():add('char1_stats', statsChar1)
-        self:view():add('char2_stats', statsChar2)]]
+        self:view():add('char1_stats', statsChar1)
+        self:view():add('char2_stats', statsChar2)
         love.timer.sleep(2)
 
         --[[
@@ -145,4 +143,4 @@ function EncounterState:resume(params)
   end
 end
 
-return EncounterState
+return FigthState
