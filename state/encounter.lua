@@ -97,19 +97,7 @@ function EncounterState:resume(params)
     end
   else
     local tab = {}
-    print("combat", _G.combat)
-    for _, j in ipairs(_G.combat) do
-      print()
-      tab = j
-      print(tab)
-      for i, aux in pairs(j) do
-        if aux.hp then print(aux.hp) end
-        print(i, aux)
-        for k, auxk in pairs(aux) do
-          print(k, auxk)
-        end
-      end
-    end
+
     for _, j in ipairs(_G.combat) do
       tab = j
       local char1 = tab[1]
@@ -132,12 +120,14 @@ function EncounterState:resume(params)
           print("inimigo acertou \nvida heroi:", char1:get_hp())
         end
         print()
+        love.timer.sleep(1)
       end
     end
     _G.combat = {}
     _G.heroSelect = {}
     --precisa colocar aqui uma condiçao
     --so vai para a proxima quest quando os herois vencerem, se os monstros vencerem paraq o jogo
+
     return self:pop()
   end
 end
