@@ -11,6 +11,7 @@ local CharacterStats = require 'view.character_stats'
 local TurnCursor = require 'view.turn_cursor'
 local ListMenu = require 'view.list_menu'
 local Clash = require 'clashCalc'
+local FightState = require 'state.fight'
 
 _G.hero   = {}
 _G.noHero = {}
@@ -25,10 +26,12 @@ local MESSAGES = {
   Item = "%s used an item",
 }
 
+local Fight
 function EncounterState:_init(stack)
   self:super(stack)
   self.turns = nil
   self.next_turn = nil
+  Fight = FightState(stack)
 end
 
 function EncounterState:enter(params)
@@ -86,6 +89,7 @@ local bfbox = battlefield.bounds
 local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
 
 function EncounterState:resume(params)
+  print("params=", params)
   if params.action ~= 'Run' then
     if params.action == 'Fight' then
        _G.fightState = true
@@ -108,6 +112,7 @@ function EncounterState:resume(params)
       local statsChar1 = CharacterStats(pos1, char1)
       local statsChar2 = CharacterStats(pos2, char2)
 
+      Fight:addChars(char1, char2)
       while char1:get_hp() > 0 and char2:get_hp() > 0 do
 
         if(Clash.acerto(char1:get_uncertainty())) then
@@ -126,7 +131,10 @@ function EncounterState:resume(params)
 
         --[[self:view():add('char1_stats', statsChar1)
         self:view():add('char2_stats', statsChar2)]]
-        love.timer.sleep(2)
+
+        Fight:update()
+
+        love.timer.sleep(1)
 
         --[[
         local bfbox = self:view():get('battlefield').bounds
@@ -135,13 +143,15 @@ function EncounterState:resume(params)
         self:view():add('char_stats', char_stats)
         ]]
       end
+      Fight:leave()
     end
     _G.combat = {}
     _G.heroSelect = {}
     --precisa colocar aqui uma condiçao
     --so vai para a proxima quest quando os herois vencerem, se os monstros vencerem paraq o jogo
-
-    return self:pop()
+    print("params=", params)
+    print("fim do enter do encounter")
+    return self:pop(params)
   end
 end
 
