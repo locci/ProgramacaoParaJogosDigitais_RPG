@@ -49,6 +49,18 @@ return {
     taurus = {
       frame = { 31, 5 },
       color = 'brown'
-    }
+    },
+    unguentoPW = {
+      frame = { 5, 14 },
+      color = 'red'
+    },
+    unguentoRE = {
+      frame = { 5, 14 },
+      color = 'green'
+    },
+    unguentoVE = {
+      frame = { 5, 14 },
+      color = 'yellow'
+    },
   }
 }

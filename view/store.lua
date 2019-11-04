@@ -7,7 +7,6 @@
 --
 local suit    = require 'suit-master'
 
-
 local input = {text = ""} -- text input data
 
 function love.update(dt)

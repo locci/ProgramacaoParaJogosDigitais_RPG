@@ -11,6 +11,6 @@ return {
     title = 'Store',
     party = { 'warrior', 'druid', 'archer', 'priest'},
     encounters = {
-        { },
+        {'unguentoPW', 'unguentoRE', 'unguentoVE'},
     }
 }

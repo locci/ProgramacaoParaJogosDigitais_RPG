@@ -6,6 +6,7 @@ _G.team = {}
 
 local _game
 local _stack
+local img
 
 function love.load()
   _game = {
@@ -16,6 +17,8 @@ function love.load()
 end
 
 function love.update(dt)
+  local g = love.graphics
+  g.setBackgroundColor(0,0,250)
   _stack:update(dt)
   _game.view:update(dt)
 end

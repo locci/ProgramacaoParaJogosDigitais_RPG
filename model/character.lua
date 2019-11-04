@@ -22,8 +22,13 @@ function Character:get_hp()
   return self.hp, self.spec.max_hp
 end
 
+function Character:set_hp(gain)
+    self.hp = self.hp + gain
+    self.spec.max_hp = self.spec.max_hp + gain
+end
+
 function Character:get_item()
-  return self.item
+  return self.spec.item
 end
 
 function Character:get_power()
@@ -34,12 +39,36 @@ function Character:get_resistance()
   return self.spec.combat['resistance']
 end
 
+function Character:set_power(gain)
+    self.spec.combat['power'] = self.spec.combat['power'] + gain
+end
+
+function Character:set_resistance(gain)
+    self.spec.combat['resistance'] = self.spec.combat['resistance'] + gain
+end
+
 function Character:get_velocity()
   return self.spec.combat['velocity']
 end
 
+function Character:set_velocity(gain)
+    self.spec.combat['velocity'] = self.spec.combat['velocity'] + gain
+end
+
 function Character:get_money()
   return self.spec.px['money']
+end
+
+function Character:set_money(price)
+   self.spec.px['money'] = self.spec.px['money'] - price
+end
+
+function Character:get_price()
+  return 10
+end
+
+function Character:get_gain()
+    return self.spec.gain
 end
 
 return Character

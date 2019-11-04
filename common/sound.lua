@@ -11,21 +11,33 @@ local SOUND = {}
  function SOUND:play(soundName)
 
      if soundName == 'sword' then
-         local src1 = love.audio.newSource("assets/sound/sword.wav", "static")
+         local src1 = love.audio.newSource("assets/sound/charge.wav", "static")
          src1:setVolume(0.9) -- 90% of ordinary volume
-         src1:setPitch(0.5) -- one octave lower
+         --src1:setPitch(0.3) -- one octave lower
          src1:play()
      end
 
      if soundName == 'monster' then
          local src1 = love.audio.newSource("assets/sound/monster.wav", "static")
          src1:setVolume(0.4) -- 90% of ordinary volume
-         src1:setPitch(0.9) -- one octave lower
+         src1:setPitch(3) -- one octave lower
          src1:play()
      end
 
- end
+     if soundName == 'coins' then
+         local src1 = love.audio.newSource("assets/sound/coins.wav", "static")
+         src1:setVolume(0.4) -- 90% of ordinary volume
+         src1:setPitch(3) -- one octave lower
+         src1:play()
+     end
 
+     if soundName == 'regmachine' then
+         local src1 = love.audio.newSource("assets/sound/regmachine.wav", "static")
+         src1:setVolume(0.4) -- 90% of ordinary volume
+         src1:setPitch(3) -- one octave lower
+         src1:play()
+     end
+ end
 
 return SOUND
 

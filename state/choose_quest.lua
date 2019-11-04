@@ -47,6 +47,8 @@ function ChooseQuestState:leave()
   self:view():remove('quest_menu')
 end
 
+_G.storeQuest = true
+
 function ChooseQuestState:on_keypressed(key)
   if key == 'down' then
     self.menu:next()
@@ -55,6 +57,11 @@ function ChooseQuestState:on_keypressed(key)
   elseif key == 'return' then
     local option = self.menu:current_option()
     local params = { quest = self.quests[option] }
+    if (params.quest.title   == 'Store') then
+      _G.storeQuest = true
+    else
+      _G.storeQuest = false
+    end
     return self:push('follow_quest', params)
   elseif key == 'escape' then
     return self:pop()

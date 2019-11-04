@@ -7,6 +7,7 @@ local CharacterStats = require 'view.character_stats'
 local TurnCursor = require 'view.turn_cursor'
 local ListMenu = require 'view.list_menu'
 local Sound = require 'common.sound'
+local STORE = require 'model.store'
 
 local PlayerTurnState = require 'common.class' (State)
 
@@ -53,6 +54,7 @@ function PlayerTurnState:leave()
 end
 
 local combat = {}
+local merchandise = {}
 _G.heroSelect = {}
 _G.combat = {}
 
@@ -68,7 +70,6 @@ local bfbox = battlefield.bounds
 local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
 
 function PlayerTurnState:on_keypressed(key)
-
   if key == 'down' then
     self.menu:next()
   elseif key == 'up' then
@@ -82,9 +83,32 @@ function PlayerTurnState:on_keypressed(key)
       message:set("Combat selected: " .. combat[1]:get_name() .. " vs " .. combat[2]:get_name())
       combat = {}
     end
+  elseif key == 'm'  and _G.storeQuest then
+    --[[if self.character:get_side() == false and merchandise[1] ~= nil and merchandise[2] == nil then
+        local operation = merchandise[1]:get_money() - self.character:get_price()
+        if operation >= 0  then
+          Sound:play('regmachine')
+          table.insert(merchandise, self.character)
+          self:view():add('message', message)
+          message:set("You buy: " .. merchandise[2]:get_name())
+          self.character = merchandise[1]
+          if merchandise[2]:get_appearance() == 'unguentoPW' then
+            self.character:set_power(merchandise[2]:get_gain())
+          elseif merchandise[2]:get_appearance() == 'unguentoRE' then
+            self.character:set_resistance(merchandise[2]:get_gain())
+          else
+            self.character:set_velocity(merchandise[2]:get_gain())
+          end
+          self.character:set_money(self.character:get_price())
+          local gain = merchandise[2]
+          merchandise = {}
+        else
+        end
+    end]]
+    self:view():add('message', message)
+    self.character, merchandise = STORE:select_item(self.character, merchandise, message, view)
   elseif key == 'k' then
     table.insert(_G.team, self.character)
-    print(#_G.team)
   elseif key == 'return' then
     local option = TURN_OPTIONS[self.menu:current_option()]
     return self:pop({ action = option, character = self.character })
@@ -98,6 +122,20 @@ function PlayerTurnState:on_keypressed(key)
       local str = "You select The " .. self.character:get_name()
       message:set(str)
     end
+  elseif key == 'b' then --buyer
+    --[[if self.character:get_side() and merchandise[1] == nil and _G.storeQuest and
+            checkTable(self.character) then
+      Sound:play('coins')
+      table.insert(_G.heroSelect, self.character)
+      table.insert(merchandise, self.character)
+      self:view():add('message', message)
+      local str = "You select The " .. self.character:get_name() .. "... good  shop!!"
+      message:set(str)
+    end]]
+    local view = self:view():add('message', message)
+    local char = STORE:select_buyer(self.character, merchandise, checkTable(self.character)
+      , message, view)
+    table.insert(merchandise, char)
   end
 end
 

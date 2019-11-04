@@ -20,6 +20,7 @@ end
 
 function BattleField:draw()
   local g = love.graphics
+  g.setBackgroundColor(0,0,250)
   g.setColor(1, 1, 1)
   g.setLineWidth(4)
   g.rectangle('line', self.bounds:get_rectangle())
