@@ -59,6 +59,7 @@ function Character:get_money()
   return self.spec.px['money']
 end
 
+
 function Character:set_money(price)
    self.spec.px['money'] = self.spec.px['money'] - price
 end
@@ -71,5 +72,14 @@ function Character:get_gain()
     return self.spec.gain
 end
 
-return Character
+function Character:get_uncertainty()
+    local uncert = self.spec.uncertainty
+    return uncert.hitChance, uncert.hitCritical
+end
 
+
+function Character:hit(power)
+    self.hp = math.max(0, self.hp - power)
+end
+
+return Character

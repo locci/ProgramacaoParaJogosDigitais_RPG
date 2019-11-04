@@ -3,9 +3,9 @@ return {
   name = "Taurus Sign",
   appearance = 'taurus',
   max_hp = 200,
-  hero = false,
+  hero = true,
   combat = {
-    power = 10,
+    power = 25,
     resistance = 15,
     velocity = 8,
   },

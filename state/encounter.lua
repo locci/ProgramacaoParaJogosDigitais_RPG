@@ -10,6 +10,8 @@ local MessageBox = require 'view.message_box'
 local CharacterStats = require 'view.character_stats'
 local TurnCursor = require 'view.turn_cursor'
 local ListMenu = require 'view.list_menu'
+local Clash = require 'clashCalc'
+local FightState = require 'state.fight'
 
 _G.hero   = {}
 _G.noHero = {}
@@ -24,10 +26,12 @@ local MESSAGES = {
   Item = "%s used an item",
 }
 
+local Fight
 function EncounterState:_init(stack)
   self:super(stack)
   self.turns = nil
   self.next_turn = nil
+  Fight = FightState(stack)
 end
 
 function EncounterState:enter(params)
@@ -85,6 +89,7 @@ local bfbox = battlefield.bounds
 local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
 
 function EncounterState:resume(params)
+  print("params=", params)
   if params.action ~= 'Run' then
     if params.action == 'Fight' then
        _G.fightState = true
@@ -96,18 +101,57 @@ function EncounterState:resume(params)
     end
   else
     local tab = {}
+
     for _, j in ipairs(_G.combat) do
       tab = j
       local char1 = tab[1]
       local char2 = tab[2]
+
       print(char1:get_name() .. " vs " .. char2:get_name())
-      print(char1:get_hp() .. " vs " .. char2:get_hp())
+      local pos1, pos2 = Vec(10, 10), Vec(20, 20)
+      local statsChar1 = CharacterStats(pos1, char1)
+      local statsChar2 = CharacterStats(pos2, char2)
+
+      Fight:addChars(char1, char2)
+      while char1:get_hp() > 0 and char2:get_hp() > 0 do
+
+        if(Clash.acerto(char1:get_uncertainty())) then
+          char2:hit(char1:get_power())
+          print("heroi acertou \nvida inimigo:", char2:get_hp())
+          if(char2:get_hp() <= 0) then break end
+        end
+        if(Clash.acerto(char2:get_uncertainty())) then
+          char1:hit(char2:get_power())
+          print("inimigo acertou \nvida heroi:", char1:get_hp())
+          if(char1:get_hp() <= 0) then break end
+        end
+        print()
+        --[[statsChar1:draw()
+        statsChar2:draw()]]
+
+        --[[self:view():add('char1_stats', statsChar1)
+        self:view():add('char2_stats', statsChar2)]]
+
+        Fight:update()
+
+        love.timer.sleep(1)
+
+        --[[
+        local bfbox = self:view():get('battlefield').bounds
+        local position = Vec(bfbox.right + 16, bfbox.top)
+        local char_stats = CharacterStats(position, self.character)
+        self:view():add('char_stats', char_stats)
+        ]]
+      end
+      Fight:leave()
     end
     _G.combat = {}
     _G.heroSelect = {}
     --precisa colocar aqui uma condiçao
     --so vai para a proxima quest quando os herois vencerem, se os monstros vencerem paraq o jogo
-    return self:pop()
+    print("params=", params)
+    print("fim do enter do encounter")
+    return self:pop(params)
   end
 end
 
