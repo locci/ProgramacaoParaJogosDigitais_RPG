@@ -87,7 +87,7 @@ function PlayerTurnState:on_keypressed(key)
       message:set("Combat selected: " .. combat[1]:get_name() .. " vs " .. combat[2]:get_name())
       combat = {}
     end
-  elseif key == 'm'  and _G.storeQuest then
+  elseif key == 'i'  and _G.storeQuest then
     --[[if self.character:get_side() == false and merchandise[1] ~= nil and merchandise[2] == nil then
         local operation = merchandise[1]:get_money() - self.character:get_price()
         if operation >= 0  then
