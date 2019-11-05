@@ -62,6 +62,11 @@ function ChooseQuestState:on_keypressed(key)
     else
       _G.storeQuest = false
     end
+    _G.quest = params.quest
+    _G.whichEncounter = 1
+    _G.heros = {}
+    _G.monsters = {}
+    _G.numberOfHeros = #_G.quest.party
     return self:push('follow_quest', params)
   elseif key == 'escape' then
     return self:pop()

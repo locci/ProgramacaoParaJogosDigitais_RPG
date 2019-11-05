@@ -26,6 +26,7 @@ end
 
 function FollowQuestState:update(_)
   if self.next_encounter <= #self.encounters then
+    _G.numberOfMonsters = #self.encounters[self.next_encounter]
     local encounter = {}
     local encounter_specnames = self.encounters[self.next_encounter]
     self.next_encounter = self.next_encounter + 1

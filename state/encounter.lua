@@ -113,7 +113,7 @@ function EncounterState:resume(params)
       local statsChar2 = CharacterStats(pos2, char2)
 
       Fight:addChars(char1, char2)
-      while char1:get_hp() > 0 and char2:get_hp() > 0 do
+      --while char1:get_hp() > 0 and char2:get_hp() > 0 do
 
         if(Clash.acerto(char1:get_uncertainty())) then
           char2:hit(char1:get_power())
@@ -142,7 +142,7 @@ function EncounterState:resume(params)
         local char_stats = CharacterStats(position, self.character)
         self:view():add('char_stats', char_stats)
         ]]
-      end
+      --end
       Fight:leave()
     end
     _G.combat = {}
@@ -150,8 +150,33 @@ function EncounterState:resume(params)
     --precisa colocar aqui uma condiçao
     --so vai para a proxima quest quando os herois vencerem, se os monstros vencerem paraq o jogo
     print("params=", params)
+  
     print("fim do enter do encounter")
-    return self:pop(params)
+    local party = _G.quest.party
+
+    --[[Esperamos que de certo. Se nao der,
+        vai ter varias vezes a mesma tabela.]]
+
+    table.insert(_G.heros, char1)
+    table.insert(_G.monsters, char2)
+
+    _G.whichEncounter = _G.whichEncounter + 1
+    local herosAlive, monstersAlive = true, true
+    if #_G.heros == #party then
+      local dead = 0
+      for _, hero in pairs(_G.heros) do
+        local hp = hero:get_hp()
+        if  hp <= 0 then
+          dead = dead + 1
+        end
+      end
+      if dead == #party then 
+        herosAlive = false
+      end
+    end
+    if herosAlive == false then
+      return self:pop(params)
+    end
   end
 end
 
