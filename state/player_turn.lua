@@ -111,7 +111,7 @@ function PlayerTurnState:on_keypressed(key)
         end
     end]]
     self:view():add('message', message)
-    self.character, merchandise = STORE:select_item(self.character, merchandise, message, view)
+    self.character, merchandise = STORE:select_item(self.character, merchandise, message)
   elseif key == 'k' then
     table.insert(_G.team, self.character)
   elseif key == 'return' then
@@ -130,8 +130,6 @@ function PlayerTurnState:on_keypressed(key)
       return self:pop({ action = option, character = self.character })
     end
   elseif key == 'h' then
-    --print(self.character:get_side(), combat[1] == nil, _G.fightState,
-            --checkTable(self.character))
     if self.character:get_side() and combat[1] == nil and _G.fightState and
             checkTable(self.character) then
       Sound:play('sword')
@@ -159,8 +157,6 @@ function PlayerTurnState:on_keypressed(key)
     local char = STORE:select_buyer(self.character, merchandise, checkTable(self.character)
       , message, view)
     table.insert(merchandise, char)
-
-
   elseif key == "escape" then
     love.event.quit()
   end

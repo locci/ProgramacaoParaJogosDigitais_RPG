@@ -178,9 +178,15 @@ function EncounterState:resume(params)
     if #_G.monsters then
 
     end
+
     if herosAlive == false then
       return self:pop(params)
     end
+
+    if _G.storeQuest then
+      return self:pop(params)
+    end
+
   end
 end
 

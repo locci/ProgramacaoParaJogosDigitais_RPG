@@ -23,7 +23,7 @@ function STORE:select_buyer(character, merchandise, checkTable, message, view)
 
 end
 
-function STORE:select_item(character, merchandise, message, view)
+function STORE:select_item(character, merchandise, message)
 
     if character:get_side() == false and merchandise[1] ~= nil and merchandise[2] == nil then
         local operation = merchandise[1]:get_money() - character:get_price()
@@ -40,15 +40,13 @@ function STORE:select_item(character, merchandise, message, view)
             end
             character:set_money(character:get_price())
             local gain = merchandise[2]   merchandise = {}
-            return character, merchandise
         else
             Sound:play('regmachine')  table.insert(merchandise, character)
             message:set("You dont have money!!!")
         end
     end
-
+    return character, merchandise
 end
-
 
 return STORE
 
