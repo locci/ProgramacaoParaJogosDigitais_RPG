@@ -65,7 +65,9 @@ function FightState:update(_)
   --[[local current_character = self.turns[self.next_turn]
   self.next_turn = self.next_turn % #self.turns + 1
   local params = { current_character = current_character }]]
-  return self:push('fight', ch1, ch2)
+
+  --return self:push('fight', ch1, ch2)
+  print("fight")
 end
 
 

@@ -11,6 +11,7 @@ function FollowQuestState:_init(stack)
   self.next_encounter = nil
 end
 
+_G.lastCharIndex = 0
 function FollowQuestState:enter(params)
   local quest = params.quest
   self.encounters = quest.encounters
@@ -20,6 +21,7 @@ function FollowQuestState:enter(params)
 
   for i, character_name in ipairs(quest.party) do
     local character_spec = require('database.characters.' .. character_name)
+    print("nome=", character_name)
     self.party[i] = Character(character_spec)
   end
 end
@@ -32,6 +34,7 @@ function FollowQuestState:update(_)
     self.next_encounter = self.next_encounter + 1
     for i, character_name in ipairs(encounter_specnames) do
       local character_spec = require('database.characters.' .. character_name)
+      print("nome=", character_name)
       encounter[i] = Character(character_spec)
     end
     local params = { party = self.party, encounter = encounter }
@@ -42,5 +45,3 @@ function FollowQuestState:update(_)
 end
 
 return FollowQuestState
-
-

@@ -35,7 +35,7 @@ function Stack:pop(info)
   self:dispatch_call('leave')
   self.states[self.top] = false
   self.top = self.top - 1
-  print("info = ", info)
+  --print("info = ", info)
   self:dispatch_call('resume', info)
 end
 

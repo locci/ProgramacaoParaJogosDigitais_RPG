@@ -76,7 +76,7 @@ function PlayerTurnState:on_keypressed(key)
   elseif key == 'up' then
     self.menu:previous()
   elseif key == 'm'  and _G.fightState then
-    print(self.character:get_side() == false, combat[1] ~= nil, combat[2] == nil)
+    --print(self.character:get_side() == false, combat[1] ~= nil, combat[2] == nil)
     if self.character:get_side() == false and combat[1] ~= nil and combat[2] == nil then
       Sound:play("monster")
       table.insert(combat, self.character)
@@ -117,8 +117,8 @@ function PlayerTurnState:on_keypressed(key)
     local option = TURN_OPTIONS[self.menu:current_option()]
     return self:pop({ action = option, character = self.character })
   elseif key == 'h' then
-    print(self.character:get_side(), combat[1] == nil, _G.fightState,
-            checkTable(self.character))
+    --print(self.character:get_side(), combat[1] == nil, _G.fightState,
+            --checkTable(self.character))
     if self.character:get_side() and combat[1] == nil and _G.fightState and
             checkTable(self.character) then
       Sound:play('sword')

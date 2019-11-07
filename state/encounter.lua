@@ -89,7 +89,7 @@ local bfbox = battlefield.bounds
 local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
 
 function EncounterState:resume(params)
-  print("params=", params)
+  --print("params=", params)
   if params.action ~= 'Run' then
     if params.action == 'Fight' then
        _G.fightState = true
@@ -103,6 +103,7 @@ function EncounterState:resume(params)
     local tab = {}
 
     for _, j in ipairs(_G.combat) do
+      print("combats=", #_G.combat)
       tab = j
       local char1 = tab[1]
       local char2 = tab[2]
@@ -115,64 +116,67 @@ function EncounterState:resume(params)
       Fight:addChars(char1, char2)
       --while char1:get_hp() > 0 and char2:get_hp() > 0 do
 
-        if(Clash.acerto(char1:get_uncertainty())) then
+        if(Clash.acerto(char1:get_uncertainty()) and
+            char1:get_hp() > 0 and char2:get_hp() > 0) then
           char2:hit(char1:get_power())
           print("heroi acertou \nvida inimigo:", char2:get_hp())
-          if(char2:get_hp() <= 0) then break end
+          --if(char2:get_hp() <= 0) then break end
         end
-        if(Clash.acerto(char2:get_uncertainty())) then
+        if(Clash.acerto(char2:get_uncertainty()) and
+            char1:get_hp() > 0 and char2:get_hp() > 0) then
           char1:hit(char2:get_power())
           print("inimigo acertou \nvida heroi:", char1:get_hp())
-          if(char1:get_hp() <= 0) then break end
+          --if(char1:get_hp() <= 0) then break end
         end
         print()
-        --[[statsChar1:draw()
-        statsChar2:draw()]]
 
-        --[[self:view():add('char1_stats', statsChar1)
-        self:view():add('char2_stats', statsChar2)]]
+        print("inserting\n")
+        _G.heros[char1:get_index()] = char1
+        _G.monsters[char2:get_index()] = char2
+        print("\ninserted")
 
         Fight:update()
 
         love.timer.sleep(1)
-
-        --[[
-        local bfbox = self:view():get('battlefield').bounds
-        local position = Vec(bfbox.right + 16, bfbox.top)
-        local char_stats = CharacterStats(position, self.character)
-        self:view():add('char_stats', char_stats)
-        ]]
-      --end
       Fight:leave()
     end
     _G.combat = {}
     _G.heroSelect = {}
-    --precisa colocar aqui uma condiçao
-    --so vai para a proxima quest quando os herois vencerem, se os monstros vencerem paraq o jogo
-    print("params=", params)
-  
-    print("fim do enter do encounter")
+
     local party = _G.quest.party
+    local encounter = params.encounter
+    --precisamos pegar todos os monstros aqui (os nomes deles)
+    print(encounter)
 
-    --[[Esperamos que de certo. Se nao der,
-        vai ter varias vezes a mesma tabela.]]
-
-    table.insert(_G.heros, char1)
-    table.insert(_G.monsters, char2)
+    print()
+    print("heros inserted = {")
+    for i, hero in pairs(_G.heros) do
+      print(i, hero)
+    end
+    print("}\nmonsters inserted = {")
+    for i, hero in pairs(_G.monsters) do
+      print(i, hero)
+    end
+    print("}\n")
 
     _G.whichEncounter = _G.whichEncounter + 1
     local herosAlive, monstersAlive = true, true
     if #_G.heros == #party then
       local dead = 0
+      print("todos os herois surgiram")
       for _, hero in pairs(_G.heros) do
         local hp = hero:get_hp()
         if  hp <= 0 then
           dead = dead + 1
         end
       end
-      if dead == #party then 
+      if dead == #party then
         herosAlive = false
       end
+      print("mortos=", dead)
+    end
+    if #_G.monsters then
+
     end
     if herosAlive == false then
       return self:pop(params)

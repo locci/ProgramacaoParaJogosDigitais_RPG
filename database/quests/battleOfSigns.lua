@@ -1,7 +1,7 @@
 return {
     title = 'Battle of Signs',
-    party = { 'python', 'cancer'},
+    party = { 'taurus'},
     encounters = {
-        { 'taurus' }
+        { 'python', 'cancer' }
     }
 }
