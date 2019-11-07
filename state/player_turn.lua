@@ -12,6 +12,7 @@ local STORE = require 'model.store'
 local PlayerTurnState = require 'common.class' (State)
 
 local TURN_OPTIONS = { 'Fight', 'Skill', 'Item', 'Run' }
+local DEFAULT_OPTIONS = { 'Fight', 'Skill', 'Item', 'Run' }
 
 function PlayerTurnState:_init(stack)
   self:super(stack)
@@ -115,7 +116,19 @@ function PlayerTurnState:on_keypressed(key)
     table.insert(_G.team, self.character)
   elseif key == 'return' then
     local option = TURN_OPTIONS[self.menu:current_option()]
-    return self:pop({ action = option, character = self.character })
+    print(option)
+    if option == "Skill" then
+      local SKILLS = {'Skill01', 'Skill02', 'Skill03', 'Back'}
+      TURN_OPTIONS = SKILLS
+      self.menu = ListMenu(SKILLS)
+      self:_show_menu()
+    elseif option == "Back" then
+      TURN_OPTIONS = DEFAULT_OPTIONS
+      self.menu = ListMenu(TURN_OPTIONS)
+      self:_show_menu()
+    else
+      return self:pop({ action = option, character = self.character })
+    end
   elseif key == 'h' then
     --print(self.character:get_side(), combat[1] == nil, _G.fightState,
             --checkTable(self.character))
