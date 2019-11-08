@@ -143,16 +143,16 @@ function EncounterState:resume(params)
 
     local party = _G.quest.party
     local encounter = params.encounter
-    --precisamos pegar todos os monstros aqui (os nomes deles)
+
     print(encounter)
 
     print()
+    local numOfMonsters = 0
     print("heros inserted = {")
     for i, hero in pairs(_G.heros) do
       print(i, hero)
     end
     print("}\nmonsters inserted = {")
-    local numOfMonsters = 0
     for i, monster in pairs(_G.monsters) do
       numOfMonsters = numOfMonsters + 1
       print(i, monster)
@@ -160,6 +160,7 @@ function EncounterState:resume(params)
     print("}\n")
     
     print("G.heros: ", #_G.heros)
+    print("G.numberOfHeros: ", _G.numberOfHeros)
     print("party: ", #party)
     print("numOfMonsters: ", numOfMonsters)
     print("G.numberOfMonsters: ", _G.numberOfMonsters)
@@ -167,7 +168,7 @@ function EncounterState:resume(params)
     _G.whichEncounter = _G.whichEncounter + 1
     local herosAlive, monstersAlive = true, true
     
-    if #_G.heros == #party then
+    if _G.numberOfHeros == #party then
       local dead = 0
       print("todos os herois surgiram")
       for _, hero in pairs(_G.heros) do
@@ -200,7 +201,7 @@ function EncounterState:resume(params)
 
     if herosAlive == false then
       print("OS HERÓIS PERDERAM")
-      _G.heros = {}
+      --_G.heros = {}
       return self:pop(params)
     end
     
