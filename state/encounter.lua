@@ -152,10 +152,14 @@ function EncounterState:resume(params)
       print(i, hero)
     end
     print("}\nmonsters inserted = {")
-    for i, hero in pairs(_G.monsters) do
-      print(i, hero)
+    local numOfMonsters = 0
+    for i, monster in pairs(_G.monsters) do
+      numOfMonsters = numOfMonsters + 1
+      print(i, monster)
     end
     print("}\n")
+    
+    
 
     _G.whichEncounter = _G.whichEncounter + 1
     local herosAlive, monstersAlive = true, true
@@ -173,11 +177,31 @@ function EncounterState:resume(params)
       end
       print("mortos=", dead)
     end
-    if #_G.monsters then
+    
 
+    
+    if numOfMonsters == _G.numberOfMonsters then
+	  local dead = 0
+	  print("todos os monstros surgiram")
+	  for _, monster in pairs(_G.monsters) do
+        local hp = monster:get_hp()
+        if  hp <= 0 then
+          dead = dead + 1
+        end
+      end
+      if dead == _G.numberOfMonsters then
+        monstersAlive = false
+      end
+      print("mortos=", dead)
     end
 
     if herosAlive == false then
+      print("OS HERÓIS PERDERAM")
+      return self:pop(params)
+    end
+    
+    if monstersAlive == false then
+      print("OS HERÓIS VENCERAM")
       return self:pop(params)
     end
 
