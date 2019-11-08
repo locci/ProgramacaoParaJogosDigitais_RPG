@@ -1,15 +1,15 @@
 
 --local Combat = require 'combat.combat_quest'
 local Vec = require 'common.vec'
-local MessageBox = require 'view.message_box'
+--local MessageBox = require 'view.message_box'
 local SpriteAtlas = require 'view.sprite_atlas'
 local BattleField = require 'view.battlefield'
 local State = require 'state'
-local Stack = require 'stack'
+--local Stack = require 'stack'
 local MessageBox = require 'view.message_box'
 local CharacterStats = require 'view.character_stats'
-local TurnCursor = require 'view.turn_cursor'
-local ListMenu = require 'view.list_menu'
+--local TurnCursor = require 'view.turn_cursor'
+--local ListMenu = require 'view.list_menu'
 local Clash = require 'clashCalc'
 local FightState = require 'state.fight'
 
@@ -89,21 +89,19 @@ local bfbox = battlefield.bounds
 local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
 
 function EncounterState:resume(params)
-  --print("params=", params)
+
   if params.action ~= 'Run' then
     if params.action == 'Fight' then
        _G.fightState = true
     else
       _G.fightState = false
     end
-    if params.action == 'Skill' then
-        print('skill: gera alguma coisa.')
-    end
+
   else
     local tab = {}
 
     for _, j in ipairs(_G.combat) do
-      print("combats=", #_G.combat)
+
       tab = j
       local char1 = tab[1]
       local char2 = tab[2]
