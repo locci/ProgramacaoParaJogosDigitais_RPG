@@ -159,10 +159,14 @@ function EncounterState:resume(params)
     end
     print("}\n")
     
-    
+    print("G.heros: ", #_G.heros)
+    print("party: ", #party)
+    print("numOfMonsters: ", numOfMonsters)
+    print("G.numberOfMonsters: ", _G.numberOfMonsters)
 
     _G.whichEncounter = _G.whichEncounter + 1
     local herosAlive, monstersAlive = true, true
+    
     if #_G.heros == #party then
       local dead = 0
       print("todos os herois surgiram")
@@ -177,19 +181,18 @@ function EncounterState:resume(params)
       end
       print("mortos=", dead)
     end
-    
 
-    
-    if numOfMonsters == _G.numberOfMonsters then
+    if _G.numberOfMonsters == numOfMonsters then
 	  local dead = 0
 	  print("todos os monstros surgiram")
 	  for _, monster in pairs(_G.monsters) do
         local hp = monster:get_hp()
+        print(monster:get_name(), monster:get_hp())
         if  hp <= 0 then
           dead = dead + 1
         end
       end
-      if dead == _G.numberOfMonsters then
+      if dead == numOfMonsters then
         monstersAlive = false
       end
       print("mortos=", dead)
@@ -197,11 +200,13 @@ function EncounterState:resume(params)
 
     if herosAlive == false then
       print("OS HERÓIS PERDERAM")
+      _G.heros = {}
       return self:pop(params)
     end
     
     if monstersAlive == false then
       print("OS HERÓIS VENCERAM")
+      _G.monsters = {}
       return self:pop(params)
     end
 
