@@ -148,8 +148,10 @@ function EncounterState:resume(params)
 
     print()
     local numOfMonsters = 0
+    local numOfHeros = 0
     print("heros inserted = {")
     for i, hero in pairs(_G.heros) do
+      numOfHeros = numOfHeros + 1
       print(i, hero)
     end
     print("}\nmonsters inserted = {")
@@ -159,16 +161,15 @@ function EncounterState:resume(params)
     end
     print("}\n")
     
-    print("G.heros: ", #_G.heros)
-    print("G.numberOfHeros: ", _G.numberOfHeros)
-    print("party: ", #party)
-    print("numOfMonsters: ", numOfMonsters)
-    print("G.numberOfMonsters: ", _G.numberOfMonsters)
+    print("Numero total de herois: ", _G.numberOfHeros)
+    print("Herois que apareceram: ", numOfHeros)
+    print("Numero total de monstros: ", _G.numberOfMonsters)
+    print("Monstros que apareceram: ", numOfMonsters)
 
     _G.whichEncounter = _G.whichEncounter + 1
     local herosAlive, monstersAlive = true, true
     
-    if _G.numberOfHeros == #party then
+    if _G.numberOfHeros == numOfHeros then
       local dead = 0
       print("todos os herois surgiram")
       for _, hero in pairs(_G.heros) do
@@ -177,10 +178,10 @@ function EncounterState:resume(params)
           dead = dead + 1
         end
       end
-      if dead == #party then
+      if dead == numOfHeros then
         herosAlive = false
       end
-      print("mortos=", dead)
+      print("Herois Mortos = ", dead)
     end
 
     if _G.numberOfMonsters == numOfMonsters then
@@ -188,7 +189,6 @@ function EncounterState:resume(params)
 	  print("todos os monstros surgiram")
 	  for _, monster in pairs(_G.monsters) do
         local hp = monster:get_hp()
-        print(monster:get_name(), monster:get_hp())
         if  hp <= 0 then
           dead = dead + 1
         end
@@ -196,13 +196,12 @@ function EncounterState:resume(params)
       if dead == numOfMonsters then
         monstersAlive = false
       end
-      print("mortos=", dead)
+      print("Monstros Mortos = ", dead)
     end
 
     if herosAlive == false then
       print("OS HERÓIS PERDERAM")
-      --_G.heros = {}
-      return self:pop(params)
+      love.event.quit()
     end
     
     if monstersAlive == false then
