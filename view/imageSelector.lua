@@ -21,6 +21,10 @@ function IMASELECTOR:set_iamge(name)
         _G.contImg = 3
     end
 
+    if (name  == 1) then
+        _G.contImg = 1
+    end
+
 end
 
 return IMASELECTOR
