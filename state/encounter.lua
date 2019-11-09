@@ -244,7 +244,6 @@ function EncounterState:resume(params)
     if _G.storeQuest then
       return self:pop()
     end
-
  end
 end
 
