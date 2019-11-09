@@ -105,6 +105,11 @@ function PlayerTurnState:on_keypressed(key)
       TURN_OPTIONS = SKILLS
       self.menu = ListMenu(SKILLS)
       self:_show_menu()
+    elseif option == "Item" then
+      local ITEMS = {'Item01', 'Item02', 'Item03', 'Back'}
+      TURN_OPTIONS = ITEMS
+      self.menu = ListMenu(ITEMS)
+      self:_show_menu()
     elseif option == "Back" then
       TURN_OPTIONS = DEFAULT_OPTIONS
       self.menu = ListMenu(TURN_OPTIONS)
