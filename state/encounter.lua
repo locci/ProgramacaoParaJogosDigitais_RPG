@@ -146,50 +146,106 @@ function EncounterState:resume(params)
     _G.heroSelect = {}
 
     local party = _G.quest.party
-    --local encounter = params.encounter
-    --print(encounter)
+    local encounter = params.encounter
+    print(encounter)
+    print()
+    local numOfMonsters = 0
+    local numOfHeros = 0
+    print("heros inserted = {")
+    for i, hero in pairs(_G.heros) do
+      print(i, hero)
+    end
+    print("}\nmonsters inserted = {")
+    for i, hero in pairs(_G.monsters) do
+      print(i, hero)
+    end
+    print("}\n")
 
-    --print()
-    --print("heros inserted = {")
-    --for i, hero in pairs(_G.heros) do
-      --print(i, hero)
-    --end
-    --print("}\nmonsters inserted = {")
-    --for i, hero in pairs(_G.monsters) do
-      --print(i, hero)
-    --end
-    --print("}\n")
+    print("Numero total de herois: ", _G.numberOfHeros)
+    print("Herois que apareceram: ", numOfHeros)
+    print("Numero total de monstros: ", _G.numberOfMonsters)
+    print("Monstros que apareceram: ", numOfMonsters)
 
     _G.whichEncounter = _G.whichEncounter + 1
-    local herosAlive = true
+    local herosAlive, monstersAlive = true, true
     if #_G.heros == #party then
-      local dead = 0
-      --print("todos os herois surgiram")
-      for _, hero in pairs(_G.heros) do
-        local hp = hero:get_hp()
-        if  hp <= 0 then
-          dead = dead + 1
-        end
-      end
-      if dead == #party then
-        herosAlive = false
-      end
-      --print("mortos=", dead)
-    end
-    --if #_G.monsters then
 
-    --end
+    local encounter = params.encounter
+
+    print(encounter)
+
+    print()
+    local numOfMonsters = 0
+    local numOfHeros = 0
+    print("heros inserted = {")
+    for i, hero in pairs(_G.heros) do
+      numOfHeros = numOfHeros + 1
+      print(i, hero)
+    end
+    print("}\nmonsters inserted = {")
+    for i, monster in pairs(_G.monsters) do
+      numOfMonsters = numOfMonsters + 1
+      print(i, monster)
+    end
+    print("}\n")
+    
+    print("Numero total de herois: ", _G.numberOfHeros)
+    print("Herois que apareceram: ", numOfHeros)
+    print("Numero total de monstros: ", _G.numberOfMonsters)
+    print("Monstros que apareceram: ", numOfMonsters)
+
+    _G.whichEncounter = _G.whichEncounter + 1
+    local herosAlive, monstersAlive = true, true
+
+    if _G.numberOfHeros == numOfHeros then
+        local dead = 0
+        print("todos os herois surgiram")
+        for _, hero in pairs(_G.heros) do
+                local hp = hero:get_hp()
+                if  hp <= 0 then
+                    dead = dead + 1
+              end
+         end
+         if dead == numOfHeros then
+                herosAlive = false
+         end
+         print("Herois Mortos = ", dead)
+    end
+
+    if _G.numberOfMonsters == numOfMonsters then
+            local dead = 0
+            print("todos os monstros surgiram")
+            for _, monster in pairs(_G.monsters) do
+                local hp = monster:get_hp()
+                if  hp <= 0 then
+                    dead = dead + 1
+                end
+            end
+            if dead == numOfMonsters then
+                monstersAlive = false
+            end
+            print("Monstros Mortos = ", dead)
+    end
 
     if herosAlive == false then
       imSelec:set_iamge(nil)
-      return self:pop(params)
+        print("OS HERÓIS PERDERAM")
+        love.event.quit()
+    end
+
+    if monstersAlive == false then
+            print("OS HERÓIS VENCERAM")
+            _G.monsters = {}
+            return self:pop(params)
+    end
+
     end
 
     if _G.storeQuest then
-      return self:pop(params)
+      return self:pop()
     end
 
-  end
+ end
 end
 
 return EncounterState
