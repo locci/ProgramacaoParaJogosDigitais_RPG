@@ -62,7 +62,7 @@ function EncounterState:enter(params)
   self:view():add('atlas', atlas)
   self:view():add('battlefield', battlefield)
   self:view():add('message', message)
-  local str = "You stumble upon an encounter \n" .. "Are you prepered?"
+  local str = "You stumble upon an encounter \n" .. "Are you prepared?"
   message:set(str)
 end
 
@@ -91,6 +91,7 @@ local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
 function EncounterState:resume(params)
 
   if params.action ~= 'Run' then
+    print(params.action)
     if params.action == 'Fight' then
        _G.fightState = true
     else

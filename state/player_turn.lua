@@ -126,6 +126,38 @@ function PlayerTurnState:on_keypressed(key)
       TURN_OPTIONS = DEFAULT_OPTIONS
       self.menu = ListMenu(TURN_OPTIONS)
       self:_show_menu()
+    elseif option == "Fight" then
+      if self.character:get_side() and combat[1] == nil and _G.fightState and
+            checkTable(self.character) then
+        Sound:play('sword')
+        table.insert(_G.heroSelect, self.character)
+        --table.insert(_G.combat, self.character)
+        print("heroi inserido na batalha")
+        table.insert(combat, self.character)
+        self:view():add('message', message)
+        local str = "You select The " .. self.character:get_name()
+        print(str)
+        message:set(str)
+        local ATTACKS = {'Select', 'Attack', 'Back'}
+		TURN_OPTIONS = ATTACKS
+		self.menu = ListMenu(ATTACKS)
+		self:_show_menu()
+	  else
+	    return self:pop({ action = option, character = self.character })
+      end
+    elseif option == "Attack" then
+      if self.character:get_side() == false and combat[1] ~= nil and combat[2] == nil then
+        TURN_OPTIONS = DEFAULT_OPTIONS
+        self.menu = ListMenu(TURN_OPTIONS)
+        self:_show_menu()
+        Sound:play("monster")
+        table.insert(combat, self.character)
+        table.insert(_G.combat, combat)
+        print("monstro inserido na batalha")
+        self:view():add('message', message)
+        message:set("Combat selected: " .. combat[1]:get_name() .. " vs " .. combat[2]:get_name())
+        combat = {}
+      end
     else
       return self:pop({ action = option, character = self.character })
     end
