@@ -6,7 +6,6 @@
 -- To change this template use File | Settings | File Templates.
 --
 
-
 return {
     title = 'Store',
     party = { 'warrior', 'druid', 'archer', 'priest'},

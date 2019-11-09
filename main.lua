@@ -6,9 +6,14 @@ _G.team = {}
 
 local _game
 local _stack
-local img
+
+_G.image   = {}
+_G.contImg = 1
 
 function love.load()
+  _G.image[1] = love.graphics.newImage('assets/textures/conan.jpg')
+  _G.image[2] = love.graphics.newImage('assets/textures/redsonja.jpg')
+  _G.image[3] = love.graphics.newImage('assets/textures/icegiant.jpg')
   _game = {
     view = View()
   }
@@ -24,6 +29,8 @@ function love.update(dt)
 end
 
 function love.draw()
+  local g = love.graphics
+   g.draw(_G.image[_G.contImg])
   _game.view:draw()
 end
 

@@ -1,3 +1,4 @@
+-- luacheck: globals love
 
 --local Combat = require 'combat.combat_quest'
 local Vec = require 'common.vec'
@@ -7,11 +8,13 @@ local BattleField = require 'view.battlefield'
 local State = require 'state'
 --local Stack = require 'stack'
 local MessageBox = require 'view.message_box'
-local CharacterStats = require 'view.character_stats'
+--local CharacterStats = require 'view.character_stats'
 --local TurnCursor = require 'view.turn_cursor'
 --local ListMenu = require 'view.list_menu'
 local Clash = require 'clashCalc'
 local FightState = require 'state.fight'
+local imSelec = require 'view.imageSelector'
+local Sound = require 'common.sound'
 
 _G.hero   = {}
 _G.noHero = {}
@@ -20,11 +23,11 @@ local EncounterState = require 'common.class' (State)
 
 local CHARACTER_GAP = 96
 
-local MESSAGES = {
+--[[local MESSAGES = {
   Fight = "%s attacked ",
   Skill = "%s unleashed a skill",
   Item = "%s used an item",
-}
+}]]
 
 local Fight
 function EncounterState:_init(stack)
@@ -81,12 +84,12 @@ function EncounterState:update(_)
 end
 
 
-local combat = {}
+--local combat = {}
 _G.fightState = true
 
-local battlefield = BattleField()
-local bfbox = battlefield.bounds
-local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
+--local battlefield = BattleField()
+--local bfbox = battlefield.bounds
+--local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
 
 function EncounterState:resume(params)
 
@@ -98,18 +101,19 @@ function EncounterState:resume(params)
     end
 
   else
-    local tab = {}
+    --local tab = {}
 
+    if _G.storeQuest  then _G.contImg = 1 end
     for _, j in ipairs(_G.combat) do
 
-      tab = j
+      local tab = j
       local char1 = tab[1]
       local char2 = tab[2]
 
-      print(char1:get_name() .. " vs " .. char2:get_name())
-      local pos1, pos2 = Vec(10, 10), Vec(20, 20)
-      local statsChar1 = CharacterStats(pos1, char1)
-      local statsChar2 = CharacterStats(pos2, char2)
+      --print(char1:get_name() .. " vs " .. char2:get_name())
+      --local pos1, pos2 = Vec(10, 10), Vec(20, 20)
+      --local statsChar1 = CharacterStats(pos1, char1)
+      --local statsChar2 = CharacterStats(pos2, char2)
 
       Fight:addChars(char1, char2)
       --while char1:get_hp() > 0 and char2:get_hp() > 0 do
@@ -117,21 +121,21 @@ function EncounterState:resume(params)
         if(Clash.acerto(char1:get_uncertainty()) and
             char1:get_hp() > 0 and char2:get_hp() > 0) then
           char2:hit(char1:get_power())
-          print("heroi acertou \nvida inimigo:", char2:get_hp())
+          --print("heroi acertou \nvida inimigo:", char2:get_hp())
           --if(char2:get_hp() <= 0) then break end
         end
         if(Clash.acerto(char2:get_uncertainty()) and
             char1:get_hp() > 0 and char2:get_hp() > 0) then
           char1:hit(char2:get_power())
-          print("inimigo acertou \nvida heroi:", char1:get_hp())
+          --print("inimigo acertou \nvida heroi:", char1:get_hp())
           --if(char1:get_hp() <= 0) then break end
         end
-        print()
+        --print()
 
-        print("inserting\n")
+        --print("inserting\n")
         _G.heros[char1:get_index()] = char1
         _G.monsters[char2:get_index()] = char2
-        print("\ninserted")
+        --print("\ninserted")
 
         Fight:update()
 
@@ -142,26 +146,25 @@ function EncounterState:resume(params)
     _G.heroSelect = {}
 
     local party = _G.quest.party
-    local encounter = params.encounter
-    --precisamos pegar todos os monstros aqui (os nomes deles)
-    print(encounter)
+    --local encounter = params.encounter
+    --print(encounter)
 
-    print()
-    print("heros inserted = {")
-    for i, hero in pairs(_G.heros) do
-      print(i, hero)
-    end
-    print("}\nmonsters inserted = {")
-    for i, hero in pairs(_G.monsters) do
-      print(i, hero)
-    end
-    print("}\n")
+    --print()
+    --print("heros inserted = {")
+    --for i, hero in pairs(_G.heros) do
+      --print(i, hero)
+    --end
+    --print("}\nmonsters inserted = {")
+    --for i, hero in pairs(_G.monsters) do
+      --print(i, hero)
+    --end
+    --print("}\n")
 
     _G.whichEncounter = _G.whichEncounter + 1
-    local herosAlive, monstersAlive = true, true
+    local herosAlive = true
     if #_G.heros == #party then
       local dead = 0
-      print("todos os herois surgiram")
+      --print("todos os herois surgiram")
       for _, hero in pairs(_G.heros) do
         local hp = hero:get_hp()
         if  hp <= 0 then
@@ -171,13 +174,14 @@ function EncounterState:resume(params)
       if dead == #party then
         herosAlive = false
       end
-      print("mortos=", dead)
+      --print("mortos=", dead)
     end
-    if #_G.monsters then
+    --if #_G.monsters then
 
-    end
+    --end
 
     if herosAlive == false then
+      imSelec:set_iamge(nil)
       return self:pop(params)
     end
 

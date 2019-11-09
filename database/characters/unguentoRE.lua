@@ -9,7 +9,6 @@
 return {
     name = "Unguento RE",
     appearance = 'unguentoRE',
-    max_hp = 3,
     hero  = false,
     item  = true,
     price = 5,

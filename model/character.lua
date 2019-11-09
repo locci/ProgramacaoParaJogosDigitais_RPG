@@ -1,4 +1,4 @@
-
+--ignore 212/self
 local Character = require 'common.class' ()
 
 function Character:_init(spec)
@@ -9,7 +9,7 @@ end
 
 function Character:create_index()
   _G.lastCharIndex = _G.lastCharIndex + 1
-  print("index=", _G.lastCharIndex)
+  --print("index=", _G.lastCharIndex)
   return _G.lastCharIndex
 end
 
@@ -77,7 +77,7 @@ function Character:set_money(price)
 end
 
 function Character:get_price()
-  return 10
+  return self.spec.price
 end
 
 function Character:get_gain()

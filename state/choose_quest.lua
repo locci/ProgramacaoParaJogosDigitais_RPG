@@ -4,6 +4,8 @@ local PALETTE_DB = require 'database.palette'
 local State = require 'state'
 local ListMenu = require 'view.list_menu'
 local Vec = require 'common.vec'
+local imSelec = require 'view.imageSelector'
+local Sound = require 'common.sound'
 
 local ChooseQuestState = require 'common.class' (State)
 
@@ -51,17 +53,17 @@ _G.storeQuest = true
 
 function ChooseQuestState:on_keypressed(key)
   if key == 'down' then
+    Sound.play('updown')
     self.menu:next()
   elseif key == 'up' then
+    Sound.play('updown')
     self.menu:previous()
   elseif key == 'return' then
     local option = self.menu:current_option()
     local params = { quest = self.quests[option] }
-    if (params.quest.title   == 'Store') then
-      _G.storeQuest = true
-    else
-      _G.storeQuest = false
-    end
+    local name = params.quest.title
+    Sound.play('page')
+    imSelec:set_iamge(name)
     _G.quest = params.quest
     _G.whichEncounter = 1
     _G.heros = {}

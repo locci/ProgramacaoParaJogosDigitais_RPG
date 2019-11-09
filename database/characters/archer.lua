@@ -60,7 +60,7 @@ return {
   px = { --progrssao
     experience =  0,
     level      = 20,
-    money      =  50,
+    money      =  5,
   },
 }
 

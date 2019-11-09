@@ -24,6 +24,7 @@ function BattleField:draw()
   g.setColor(1, 1, 1)
   g.setLineWidth(4)
   g.rectangle('line', self.bounds:get_rectangle())
+
 end
 
 return BattleField
