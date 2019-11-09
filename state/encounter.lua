@@ -77,9 +77,15 @@ function EncounterState:leave()
 end
 
 function EncounterState:update(_)
-  local current_character = self.turns[self.next_turn]
-  self.next_turn = self.next_turn % #self.turns + 1
-  local params = { current_character = current_character }
+  self.next_turn = (self.next_turn % #self.turns) + 1
+  local currentChar = self.turns[self.next_turn]
+
+  --Lado dos herois e true (meio estranho de ler o codigo assim)
+  while currentChar:get_side() and _G.storeQuest == false do
+    self.next_turn = (self.next_turn % #self.turns) + 1
+    currentChar = self.turns[self.next_turn]
+  end
+  local params = { currentChar = currentChar }
   return self:push('player_turn', params)
 end
 
@@ -101,7 +107,6 @@ function EncounterState:resume(params)
     end
 
   else
-    --local tab = {}
 
     if _G.storeQuest  then _G.contImg = 1 end
     for _, j in ipairs(_G.combat) do
@@ -110,37 +115,23 @@ function EncounterState:resume(params)
       local char1 = tab[1]
       local char2 = tab[2]
 
-      --print(char1:get_name() .. " vs " .. char2:get_name())
-      --local pos1, pos2 = Vec(10, 10), Vec(20, 20)
-      --local statsChar1 = CharacterStats(pos1, char1)
-      --local statsChar2 = CharacterStats(pos2, char2)
+      if(Clash.acerto(char1:get_uncertainty()) and
+          char1:get_hp() > 0 and char2:get_hp() > 0) then
+        char2:hit(char1:get_power())
+        --print("heroi acertou \nvida inimigo:", char2:get_hp())
+        --if(char2:get_hp() <= 0) then break end
+      end
+      if(Clash.acerto(char2:get_uncertainty()) and
+          char1:get_hp() > 0 and char2:get_hp() > 0) then
+        char1:hit(char2:get_power())
+        --print("inimigo acertou \nvida heroi:", char1:get_hp())
+        --if(char1:get_hp() <= 0) then break end
+      end
 
-      Fight:addChars(char1, char2)
-      --while char1:get_hp() > 0 and char2:get_hp() > 0 do
+      _G.heros[char1:get_index()] = char1
+      _G.monsters[char2:get_index()] = char2
 
-        if(Clash.acerto(char1:get_uncertainty()) and
-            char1:get_hp() > 0 and char2:get_hp() > 0) then
-          char2:hit(char1:get_power())
-          --print("heroi acertou \nvida inimigo:", char2:get_hp())
-          --if(char2:get_hp() <= 0) then break end
-        end
-        if(Clash.acerto(char2:get_uncertainty()) and
-            char1:get_hp() > 0 and char2:get_hp() > 0) then
-          char1:hit(char2:get_power())
-          --print("inimigo acertou \nvida heroi:", char1:get_hp())
-          --if(char1:get_hp() <= 0) then break end
-        end
-        --print()
-
-        --print("inserting\n")
-        _G.heros[char1:get_index()] = char1
-        _G.monsters[char2:get_index()] = char2
-        --print("\ninserted")
-
-        Fight:update()
-
-        love.timer.sleep(1)
-      Fight:leave()
+      love.timer.sleep(1)
     end
     _G.combat = {}
     _G.heroSelect = {}
@@ -174,10 +165,9 @@ function EncounterState:resume(params)
 
     print(encounter)
 
-    print()
     local numOfMonsters = 0
     local numOfHeros = 0
-    print("heros inserted = {")
+    print("\nheros inserted = {")
     for i, hero in pairs(_G.heros) do
       numOfHeros = numOfHeros + 1
       print(i, hero)
@@ -188,7 +178,7 @@ function EncounterState:resume(params)
       print(i, monster)
     end
     print("}\n")
-    
+
     print("Numero total de herois: ", _G.numberOfHeros)
     print("Herois que apareceram: ", numOfHeros)
     print("Numero total de monstros: ", _G.numberOfMonsters)
@@ -198,45 +188,47 @@ function EncounterState:resume(params)
     local herosAlive, monstersAlive = true, true
 
     if _G.numberOfHeros == numOfHeros then
-        local dead = 0
-        print("todos os herois surgiram")
-        for _, hero in pairs(_G.heros) do
-                local hp = hero:get_hp()
-                if  hp <= 0 then
-                    dead = dead + 1
-              end
-         end
-         if dead == numOfHeros then
-                herosAlive = false
-         end
-         print("Herois Mortos = ", dead)
+      local dead = 0
+      print("todos os herois surgiram")
+      for _, hero in pairs(_G.heros) do
+              local hp = hero:get_hp()
+              if  hp <= 0 then
+                  dead = dead + 1
+            end
+       end
+       if dead == numOfHeros then
+              herosAlive = false
+       end
+       print("Herois Mortos = ", dead)
     end
 
     if _G.numberOfMonsters == numOfMonsters then
-            local dead = 0
-            print("todos os monstros surgiram")
-            for _, monster in pairs(_G.monsters) do
-                local hp = monster:get_hp()
-                if  hp <= 0 then
-                    dead = dead + 1
-                end
-            end
-            if dead == numOfMonsters then
-                monstersAlive = false
-            end
-            print("Monstros Mortos = ", dead)
+      local dead = 0
+      print("todos os monstros surgiram")
+      for _, monster in pairs(_G.monsters) do
+          local hp = monster:get_hp()
+          if  hp <= 0 then
+              dead = dead + 1
+          end
+      end
+      if dead == numOfMonsters then
+          monstersAlive = false
+      end
+      print("Monstros Mortos = ", dead)
     end
 
     if herosAlive == false then
-      imSelec:set_iamge(nil)
-        print("OS HERÓIS PERDERAM")
-        love.event.quit()
+      imSelec:set_image(nil)
+      print("OS HERÓIS PERDERAM")
+      IMASELECTOR:set_image(4)
+      love.event.wait(10)
+      love.event.quit()
     end
 
     if monstersAlive == false then
-            print("OS HERÓIS VENCERAM")
-            _G.monsters = {}
-            return self:pop(params)
+      print("OS HERÓIS VENCERAM")
+      _G.monsters = {}
+      self:pop(params)
     end
 
     end

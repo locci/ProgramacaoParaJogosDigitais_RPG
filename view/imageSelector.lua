@@ -8,20 +8,21 @@
 
 local IMASELECTOR = {}
 
-function IMASELECTOR:set_iamge(name)
+local scenarios = {
+  ["Battle of Signs"] = {img = 1},
+  ["Giant Attack"] = { img = 3 },
+  ["Slime Infestation"] = { img = 1 },
+  ["Store"] = { img = 2 },
+  ["Game Over"] = { img = 4 }
+}
 
-    if (name  == 'Store') then
-        _G.contImg = 2
-        _G.storeQuest = true
-    else
-        _G.storeQuest = false
-    end
+function IMASELECTOR:set_image(name)
 
-    if (name  == 'Giant Attack') then
-        _G.contImg = 3
+    if name then
+      _G.contImg = scenarios[name].img
     end
+    _G.storeQuest = (name == "Store")
 
 end
 
 return IMASELECTOR
-

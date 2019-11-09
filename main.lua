@@ -14,6 +14,7 @@ function love.load()
   _G.image[1] = love.graphics.newImage('assets/textures/conan.jpg')
   _G.image[2] = love.graphics.newImage('assets/textures/redsonja.jpg')
   _G.image[3] = love.graphics.newImage('assets/textures/icegiant.jpg')
+  _G.image[4] = love.graphics.newImage('assets/textures/gameOver.jpg')
   _game = {
     view = View()
   }
