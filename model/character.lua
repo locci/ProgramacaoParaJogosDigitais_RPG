@@ -76,6 +76,10 @@ function Character:set_money(price)
    self.spec.px['money'] = self.spec.px['money'] - price
 end
 
+function Character:set_money_bonus(bonus)
+    self.spec.px['money'] = self.spec.px['money'] + bonus
+end
+
 function Character:get_price()
   return self.spec.price
 end

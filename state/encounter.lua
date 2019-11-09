@@ -150,7 +150,8 @@ function EncounterState:resume(params)
         self:view():add('message', message)
         message:set(str)
         str = ""
-
+        local victory = {}
+        victory =  _G.combat
         _G.combat = {}
         _G.heroSelect = {}
 
@@ -226,9 +227,18 @@ function EncounterState:resume(params)
             Sound.play('victory')
             --local num = math.random(1,3)
             imSelec:set_iamge(1)
+             for _, j in ipairs(victory) do
+                local par = j
+                 if par[1]:get_hp() > 0 then
+                     print(par[1]:get_name())
+                     par[1]:set_money_bonus(5)
+                 end
+             end
             _G.monsters = {}
             return self:pop(params)
         end
+
+
 
         if _G.storeQuest then
             return self:pop(params)
