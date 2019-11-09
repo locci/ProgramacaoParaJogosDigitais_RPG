@@ -18,7 +18,7 @@ local SOUND = {}
      end
      if soundName == 'monster' then
          local src1 = love.audio.newSource("assets/sound/monster.ogg", "static")
-         src1:setVolume(0.4)
+         src1:setVolume(0.9)
          src1:setPitch(3)
          src1:play()
      end
@@ -46,6 +46,20 @@ local SOUND = {}
          local src1 = love.audio.newSource("assets/sound/updown.ogg", "static")
          src1:setVolume(0.4) -- 90% of ordinary volume
          src1:setPitch(3) -- one octave lower
+         src1:play()
+     end
+
+     if soundName == 'victory' then
+         local src1 = love.audio.newSource("assets/sound/victory.ogg", "static")
+         src1:setVolume(0.4) -- 90% of ordinary volume
+         --src1:setPitch(3) -- one octave lower
+         src1:play()
+     end
+
+     if soundName == 'charge' then
+         local src1 = love.audio.newSource("assets/sound/charge.ogg", "static")
+         src1:setVolume(0.4) -- 90% of ordinary volume
+         --src1:setPitch(3) -- one octave lower
          src1:play()
      end
 

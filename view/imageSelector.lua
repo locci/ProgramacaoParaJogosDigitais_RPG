@@ -23,6 +23,10 @@ function IMASELECTOR:set_image(name)
     end
     _G.storeQuest = (name == "Store")
 
+    if (name  == 1) then
+        _G.contImg = 1
+    end
+
 end
 
 return IMASELECTOR
