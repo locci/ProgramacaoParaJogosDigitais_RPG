@@ -89,6 +89,10 @@ function Character:get_uncertainty()
     return uncert.hitChance, uncert.hitCritical
 end
 
+function Character:get_skills()
+  return self.spec.skill
+end
+
 
 function Character:hit(power)
     self.hp = math.max(0, self.hp - power)

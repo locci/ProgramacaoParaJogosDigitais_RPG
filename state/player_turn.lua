@@ -101,6 +101,7 @@ function PlayerTurnState:on_keypressed(key)
   elseif key == 'return' then
     local option = TURN_OPTIONS[self.menu:current_option()]
     if option == "Skill" then
+      print(self.character:get_skills()[1])
       local SKILLS = {'Skill01', 'Skill02', 'Skill03', 'Back'}
       TURN_OPTIONS = SKILLS
       self.menu = ListMenu(SKILLS)
