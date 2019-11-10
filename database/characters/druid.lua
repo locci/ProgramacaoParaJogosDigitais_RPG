@@ -32,6 +32,7 @@ return {
           hitChance =  2,
           consumo   = -2,
           target    =  3,
+          power     =  2
         }
       },
       items = {--item equipavel

@@ -19,12 +19,14 @@ return {
       hitChance =  5,
       consumo   = -1,
       target    =  1,
+      power     =  2
     },
     ["Arrow Rain"] = {
       name = "Arrow Rain",
       hitChance =  2,
       consumo   = -2,
       target    =  3,
+      power     =  2
     }
   },
   items = {--item equipavel
