@@ -188,7 +188,6 @@ function EncounterState:resume(params)
             self:view():add('message', message)
             message:set(str)
             imSelec.set_image("Store")
-            --_G.gameOver = true
         end
 
         if monstersAlive == false then
