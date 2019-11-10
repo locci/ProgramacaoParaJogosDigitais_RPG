@@ -10,6 +10,7 @@ return {
     appearance = 'druid',
     max_hp = 25,
     hero = true,
+    environment = 'no',
     combat = {
         power = 10,
         resistance = 15,

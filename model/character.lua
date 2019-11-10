@@ -96,4 +96,8 @@ function Character:hit(power)
     self.hp = math.max(0, self.hp - power)
 end
 
+function Character:get_environment()
+    return self.spec.environment
+end
+
 return Character

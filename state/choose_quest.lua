@@ -62,6 +62,7 @@ function ChooseQuestState:on_keypressed(key)
     local option = self.menu:current_option()
     local params = { quest = self.quests[option] }
     local name = params.quest.title
+    _G.environment = params.quest.environment
     Sound.play('page')
     imSelec.set_image(name)
     _G.quest = params.quest

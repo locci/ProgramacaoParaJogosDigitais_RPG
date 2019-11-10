@@ -9,6 +9,7 @@ local TurnCursor = require 'view.turn_cursor'
 local ListMenu = require 'view.list_menu'
 local STORE = require 'model.store'
 local Sound = require 'common.sound'
+local Enviroment = require 'model.enviromentCond'
 
 local PlayerTurnState = require 'common.class' (State)
 
@@ -96,10 +97,10 @@ function PlayerTurnState:on_keypressed(key)
             checkTable(self.character) then
       Sound:play('sword')
       table.insert(_G.heroSelect, self.character)
-
       table.insert(combat, self.character)
       self:view():add('message', message)
-      local str = self.character:get_name() .. " selected"
+      local str2 = Enviroment:calcEnvEf(_G.environment, self.character)
+      local str = self.character:get_name() .. " selected \n".. str2
       message:set(str)
       _G.select = "monster"
       if self.character:get_hp() <= 0 then
@@ -147,7 +148,7 @@ function PlayerTurnState:on_keypressed(key)
     else
       return self:pop({ action = option, character = self.character })
     end
-  elseif key == 'h' then
+  --[[elseif key == 'h' then
     if self.character:get_side() and combat[1] == nil and _G.fightState and
             checkTable(self.character) then
       Sound:play('charge')
@@ -161,7 +162,7 @@ function PlayerTurnState:on_keypressed(key)
       self:view():add('message', message)
       local str = 'You are dead!!! Get out!!!'
       message:set(str)
-    end
+    end]]
   elseif key == 'b' and _G.storeQuest then
     local view = self:view():add('message', message)
     local char = STORE.select_buyer(self.character, merchandise, checkTable(self.character)

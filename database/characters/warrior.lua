@@ -4,6 +4,7 @@ return {
   appearance = 'knight',
   max_hp = 20,
   hero = true,
+  environment = 'neve',
   combat = {
     power = 10,
     resistance = 15,

@@ -3,5 +3,6 @@ return {
     party = { 'taurus'},
     encounters = {
         { 'python', 'cancer' }
-    }
+    },
+    environment = 'normal'
 }

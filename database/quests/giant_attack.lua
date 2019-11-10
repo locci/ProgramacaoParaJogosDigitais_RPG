@@ -11,6 +11,7 @@ return {
     encounters = {
         { 'giant' },
         { 'giant', 'giant' }
-    }
+    },
+    environment = 'neve'
 }
 

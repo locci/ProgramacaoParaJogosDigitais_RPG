@@ -4,6 +4,7 @@ return {
   appearance = 'priest',
   max_hp = 8,
   hero = true,
+  environment = 'no',
   combat = {
     power = 10,
     resistance = 15,

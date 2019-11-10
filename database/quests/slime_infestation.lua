@@ -6,5 +6,6 @@ return {
     { 'green_slime', 'green_slime', 'green_slime' },
     { 'green_slime' },
     { 'blue_slime', 'green_slime' },
-  }
+  },
+  environment = 'cave'
 }

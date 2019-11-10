@@ -4,6 +4,7 @@ return {
   appearance = 'archer',
   max_hp = 12,
   hero=true,
+  environment = 'cave',
   combat = {
     power = 9,
     resistance = 15,
