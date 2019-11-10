@@ -77,7 +77,7 @@ local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
 
 function PlayerTurnState:on_keypressed(key)
 
-  if key == "escape" then
+  if _G.gameOver then
       love.event.quit()
       return
   end

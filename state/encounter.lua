@@ -184,10 +184,10 @@ function EncounterState:resume(params)
         end
 
         if herosAlive == false then
-            str = "HEROES LOST - press esc"
+
+            str = "HEROES LOST - press any Key to Exit."
             self:view():add('message', message)
             message:set(str)
-
             imSelec.set_image("Game Over")
             _G.gameOver = true
 
