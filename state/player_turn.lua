@@ -106,8 +106,7 @@ function PlayerTurnState:on_keypressed(key)
       _G.select = "monster"
       if self.character:get_hp() <= 0 then
         self:view():add('message', message)
-        local str = self.character:get_name() .. " selected"
-        local str = 'This monster is gone!!'
+        str = str .. '\nThis monster is gone!!'
         message:set(str)
         _G.select = "monster"
       end
@@ -170,7 +169,7 @@ function PlayerTurnState:on_keypressed(key)
       local str = "You select The " .. self.character:get_name()
       message:set(str)
     end
-    if hp <= 0 then
+    if self.character:get_hp() <= 0 then
       self:view():add('message', message)
       local str = 'You are dead!!! Get out!!!'
       message:set(str)

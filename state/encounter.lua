@@ -144,9 +144,7 @@ function EncounterState:resume(params)
 
         self:view():add('message', message)
         message:set(str)
-        str = ""
-        local victory = {}
-        victory =  _G.combat
+        --local victory =  _G.combat
 
         _G.combat = {}
         _G.heroSelect = {}
