@@ -118,28 +118,22 @@ function PlayerTurnState:on_keypressed(key)
   elseif key == 'return' then
     local option = TURN_OPTIONS[self.menu:current_option()]
     if option == "Skill" then
-      print(self.character:get_skills()[1])
-      local SKILLS = {'Skill01', 'Skill02', 'Skill03', 'Back'}
+      local SKILLS = {}
+      for _,item in pairs(self.character:get_skill()) do
+        table.insert(SKILLS, item.name)
+      end
+      table.insert(SKILLS, "Back")
       TURN_OPTIONS = SKILLS
       self.menu = ListMenu(SKILLS)
       self:_show_menu()
     elseif option == "Item" then
-      local ITEMS = {'Item01', 'Item02', 'Item03', 'Back'}
+      local ITEMS = {}
+      for _,item in pairs(self.character:get_item()) do
+        table.insert(ITEMS, item.name)
+      end
+      table.insert(ITEMS, "Back")
       TURN_OPTIONS = ITEMS
       self.menu = ListMenu(ITEMS)
-      self:_show_menu()
-    elseif option == "Back" then
-      TURN_OPTIONS = DEFAULT_OPTIONS
-      self.menu = ListMenu(TURN_OPTIONS)
-      self:_show_menu()
-    else
-      return self:pop({ action = option, character = self.character })
-    end
-    option  = TURN_OPTIONS[self.menu:current_option()]
-    if option == "Item" then
-      local ITEM = {'Item01', 'Item02', 'Item03', 'Back'}
-      TURN_OPTIONS = ITEM
-      self.menu = ListMenu(ITEM)
       self:_show_menu()
     elseif option == "Back" then
       TURN_OPTIONS = DEFAULT_OPTIONS

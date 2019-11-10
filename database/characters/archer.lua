@@ -14,32 +14,34 @@ return {
     hitCritical = 20,
   },
   skill={
-    eagleEye = {
+    ["Eagle Eye"] = {
+      name = "Eagle Eye",
       hitChance =  5,
       consumo   = -1,
       target    =  1,
     },
-    arrowrain = {
+    ["Arrow Rain"] = {
+      name = "Arrow Rain",
       hitChance =  2,
       consumo   = -2,
       target    =  3,
     }
   },
   item = {--item equipavel
-     firearrow = {
-       name = 'firearrow',
-       power = 4,
-       max   = 5,
-       now   = 5,
-     },
-     icearrow = {
-       name = 'icearrow',
-       power = 2,
-       max   = 10,
-       now   = 5,
-      },
-    arrow = {
-      name = 'arrow',
+    ["Fire Arrow"] = {
+      name = 'Fire Arrow',
+      power = 4,
+      max   = 5,
+      now   = 5,
+    },
+    ["Ice Arrow"] = {
+      name = 'Ice Arrow',
+      power = 2,
+      max   = 10,
+      now   = 5,
+    },
+    ["Arrow"] = {
+      name = 'Arrow',
       power = 1,
       max   = 20,
       now   = 20,
