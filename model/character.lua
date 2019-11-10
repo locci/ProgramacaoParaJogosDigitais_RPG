@@ -1,20 +1,18 @@
---ignore 212/self
+
 local Character = require 'common.class' ()
 
 function Character:_init(spec)
   self.spec = spec
   self.hp = spec.max_hp
-  self.index = Character:create_index()
+  self.index = Character.create_index()
 end
 
-function Character:create_index()
+function Character.create_index()
   _G.lastCharIndex = _G.lastCharIndex + 1
-  --print("index=", _G.lastCharIndex)
   return _G.lastCharIndex
 end
 
 function Character:get_index()
-  print("index de", self.spec.name, "e'", self.index)
   return self.index
 end
 

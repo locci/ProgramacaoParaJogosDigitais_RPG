@@ -22,7 +22,7 @@ function PlayerTurnState:_init(stack)
 end
 
 function PlayerTurnState:enter(params)
-  self.character = params.current_character
+  self.character = params.currentChar
   self:_show_menu()
   self:_show_cursor()
   self:_show_stats()
@@ -38,7 +38,7 @@ end
 function PlayerTurnState:_show_cursor()
   local atlas = self:view():get('atlas')
   local sprite_instance = atlas:get(self.character)
-  local cursor   = TurnCursor(sprite_instance)
+  local cursor = TurnCursor(sprite_instance)
   self:view():add('turn_cursor', cursor)
 end
 
@@ -73,6 +73,7 @@ local bfbox = battlefield.bounds
 local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
 
 function PlayerTurnState:on_keypressed(key)
+
   if key == 'down' then
     Sound.play('updown')
     self.menu:next()
@@ -81,19 +82,33 @@ function PlayerTurnState:on_keypressed(key)
     self.menu:previous()
   elseif key == 'm'  and _G.fightState then
     if self.character:get_side() == false and combat[1] ~= nil and combat[2] == nil
-            and self.character:get_hp() > 0 then
+        and self.character:get_hp() > 0 then
       Sound:play('monster')
       table.insert(combat, self.character)
       table.insert(_G.combat, combat)
-      --table.insert(_G.combat, self.character)
       self:view():add('message', message)
       message:set("Combat selected: " .. combat[1]:get_name() .. " vs " .. combat[2]:get_name())
       combat = {}
+      _G.select = "hero"
     end
-    if self.character:get_hp() <= 0 then
+  elseif key == 'h' then
+    if self.character:get_side() and combat[1] == nil and _G.fightState and
+            checkTable(self.character) then
+      Sound:play('sword')
+      table.insert(_G.heroSelect, self.character)
+
+      table.insert(combat, self.character)
       self:view():add('message', message)
-      local str = 'This monster is gone!!'
+      local str = self.character:get_name() .. " selected"
       message:set(str)
+      _G.select = "monster"
+      if self.character:get_hp() <= 0 then
+        self:view():add('message', message)
+        local str = self.character:get_name() .. " selected"
+        local str = 'This monster is gone!!'
+        message:set(str)
+        _G.select = "monster"
+      end
     end
   elseif key == 'i'  and _G.storeQuest then
     self:view():add('message', message)
@@ -120,7 +135,6 @@ function PlayerTurnState:on_keypressed(key)
       return self:pop({ action = option, character = self.character })
     end
     option  = TURN_OPTIONS[self.menu:current_option()]
-    print(option)
     if option == "Item" then
       local ITEM = {'Item01', 'Item02', 'Item03', 'Back'}
       TURN_OPTIONS = ITEM
@@ -133,14 +147,11 @@ function PlayerTurnState:on_keypressed(key)
     else
       return self:pop({ action = option, character = self.character })
     end
-  elseif key == 'h' and _G.storeQuest == false then
-    local hp, hpmax = self.character:get_hp()
+  elseif key == 'h' then
     if self.character:get_side() and combat[1] == nil and _G.fightState and
-            checkTable(self.character) and  hp > 0 then
+            checkTable(self.character) then
       Sound:play('charge')
       table.insert(_G.heroSelect, self.character)
-      --table.insert(_G.combat, self.character)
-      --print("heroi inserido na batalha")
       table.insert(combat, self.character)
       self:view():add('message', message)
       local str = "You select The " .. self.character:get_name()

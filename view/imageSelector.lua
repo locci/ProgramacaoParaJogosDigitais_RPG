@@ -8,18 +8,25 @@
 
 local IMASELECTOR = {}
 
-function IMASELECTOR:set_iamge(name)
+local scene = {
+  ["Default"] = { img = 1 },
+  ["Battle of Signs"] = { img = 1 },
+  ["Giant Attack"] = { img = 3 },
+  ["Slime Infestation"] = { img = 1 },
+  ["Store"] = { img = 2 },
+  ["Game Over"] = { img = 4 }
+}
 
-    if (name  == 'Store') then
-        _G.contImg = 2
-        _G.storeQuest = true
-    else
-        _G.storeQuest = false
-    end
+function IMASELECTOR.set_image(name)
 
-    if (name  == 'Giant Attack') then
-        _G.contImg = 3
+    if name then
+      if scene[name] then
+        _G.contImg = scene[name].img
+      else
+        _G.contImg = scene["Default"].img
+      end
     end
+    _G.storeQuest = (name == "Store")
 
     if (name  == 1) then
         _G.contImg = 1
@@ -28,4 +35,3 @@ function IMASELECTOR:set_iamge(name)
 end
 
 return IMASELECTOR
-
