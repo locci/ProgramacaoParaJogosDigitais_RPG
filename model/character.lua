@@ -37,10 +37,6 @@ function Character:set_hp(gain)
     self.spec.max_hp = self.spec.max_hp + gain
 end
 
-function Character:get_item()
-  return self.spec.item
-end
-
 function Character:get_power()
   return self.spec.combat['power']
 end
@@ -90,16 +86,42 @@ function Character:get_uncertainty()
     return uncert.hitChance, uncert.hitCritical
 end
 
-function Character:get_skill()
-  return self.spec.skill
-end
-
 function Character:hit(power)
     self.hp = math.max(0, self.hp - power)
 end
 
+
 function Character:get_environment()
     return self.spec.environment
+end
+
+function Character:getAllItems()
+  return self.spec.items
+end
+
+function Character:set_item(item)
+  self.spec.selectedItem = item
+end
+
+function Character:get_item()
+  local sel = self.spec.selectedItem
+  if sel then return sel
+  else return {power=0} end
+end
+
+function Character:getAllSkills()
+  return self.spec.skills
+end
+
+function Character:set_skill(skill)
+  self.spec.selectedSkill = skill
+end
+
+function Character:get_skill()
+  local sel = self.spec.selectedSkill
+  if sel then return sel
+  else return {hitChance=0}
+  end
 end
 
 return Character

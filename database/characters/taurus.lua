@@ -13,7 +13,7 @@ return {
     hitChance = 50,
     hitCritical = 20,
   },
-  skill={
+  skills = {
     ["Eagle Eye"] = {
       name = "Eagle Eye",
       hitChance =  5,
@@ -27,7 +27,7 @@ return {
       target    =  3,
     }
   },
-  item = {--item equipavel
+  items = {--item equipavel
     ["Fire Arrow"] = {
       name = 'Fire Arrow',
       power = 4,

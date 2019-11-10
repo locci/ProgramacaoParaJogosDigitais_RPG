@@ -74,6 +74,8 @@ local bfbox = battlefield.bounds
 local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
 
 function PlayerTurnState:on_keypressed(key)
+  local allItems = self.character:getAllItems()
+  local allSkills = self.character:getAllSkills()
 
   if key == 'down' then
     Sound.play('updown')
@@ -105,8 +107,7 @@ function PlayerTurnState:on_keypressed(key)
       _G.select = "monster"
       if self.character:get_hp() <= 0 then
         self:view():add('message', message)
-        local str = self.character:get_name() .. " selected"
-        local str = 'This monster is gone!!'
+        str = str .. '\nThis monster is gone!!'
         message:set(str)
         _G.select = "monster"
       end
@@ -120,29 +121,45 @@ function PlayerTurnState:on_keypressed(key)
     local option = TURN_OPTIONS[self.menu:current_option()]
     if option == "Skill" then
       local SKILLS = {}
-      for _,item in pairs(self.character:get_skill()) do
+      for _,item in pairs(allSkills) do
         table.insert(SKILLS, item.name)
       end
       table.insert(SKILLS, "Back")
       TURN_OPTIONS = SKILLS
       self.menu = ListMenu(SKILLS)
       self:_show_menu()
+      _G.lastOption = "Skill"
     elseif option == "Item" then
       local ITEMS = {}
-      for _,item in pairs(self.character:get_item()) do
+      for _,item in pairs(allItems) do
         table.insert(ITEMS, item.name)
       end
       table.insert(ITEMS, "Back")
       TURN_OPTIONS = ITEMS
       self.menu = ListMenu(ITEMS)
       self:_show_menu()
+      _G.lastOption = "Item"
     elseif option == "Back" then
       TURN_OPTIONS = DEFAULT_OPTIONS
       self.menu = ListMenu(TURN_OPTIONS)
       self:_show_menu()
-    else
+    elseif option == "Fight" or option == "Run" then
       return self:pop({ action = option, character = self.character })
+
+    elseif _G.lastOption == "Skill" then
+      local skill = allSkills[option]
+      self.character:set_skill(skill)
+      self:view():add('message', message)
+      local str = skill.name .. ' selected'
+      message:set(str)
+    elseif _G.lastOption == "Item" then
+      local item = allItems[option]
+      self.character:set_item(item)
+      self:view():add('message', message)
+      local str = item.name .. ' selected'
+      message:set(str)
     end
+
     option  = TURN_OPTIONS[self.menu:current_option()]
     if option == "Item" then
       local ITEM = {'Item01', 'Item02', 'Item03', 'Back'}
@@ -155,6 +172,23 @@ function PlayerTurnState:on_keypressed(key)
       self:_show_menu()
     else
       return self:pop({ action = option, character = self.character })
+    end
+
+  elseif key == 'h' then
+    if self.character:get_side() and combat[1] == nil and _G.fightState and
+            checkTable(self.character) then
+      Sound:play('charge')
+      table.insert(_G.heroSelect, self.character)
+      table.insert(combat, self.character)
+      self:view():add('message', message)
+      local str = "You select The " .. self.character:get_name()
+      message:set(str)
+    end
+    if self.character:get_hp() <= 0 then
+      self:view():add('message', message)
+      local str = 'You are dead!!! Get out!!!'
+      message:set(str)
+
     end
   elseif key == 'b' and _G.storeQuest then
     local view = self:view():add('message', message)
