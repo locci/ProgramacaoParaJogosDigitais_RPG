@@ -7,7 +7,7 @@ return {
   combat = {
     power = 10,
     resistance = 15,
-    velocity = 10,
+    velocity = 8,
   },
   uncertainty = {
     hitChance = 80,

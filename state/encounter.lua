@@ -1,15 +1,11 @@
---local Combat = require 'combat.combat_quest'
+-- luacheck: globals love
+
 local Vec = require 'common.vec'
 local MessageBox = require 'view.message_box'
 local SpriteAtlas = require 'view.sprite_atlas'
 local BattleField = require 'view.battlefield'
 local State = require 'state'
---local Stack = require 'stack'
-local CharacterStats = require 'view.character_stats'
---local TurnCursor = require 'view.turn_cursor'
---local ListMenu = require 'view.list_menu'
 local Clash = require 'clashCalc'
-local FightState = require 'state.fight'
 local imSelec = require 'view.imageSelector'
 local Sound = require 'common.sound'
 
@@ -21,29 +17,29 @@ local EncounterState = require 'common.class' (State)
 
 local CHARACTER_GAP = 96
 
-local MESSAGES = {
+--[[local MESSAGES = {
     Fight = "%s attacked ",
     Skill = "%s unleashed a skill",
     Item = "%s used an item",
-}
+}]]
 
 local battlefield = BattleField()
 local bfbox = battlefield.bounds
 local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
 
-local Fight
+--local Fight
 function EncounterState:_init(stack)
     self:super(stack)
     self.turns = nil
     self.next_turn = nil
-    Fight = FightState(stack)
+    --Fight = FightState(stack)
 end
 
 function EncounterState:enter(params)
     local atlas = SpriteAtlas()
-    local battlefield = BattleField()
-    local bfbox = battlefield.bounds
-    local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
+    battlefield = BattleField()
+    bfbox = battlefield.bounds
+    message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
     local n = 0
     local party_origin = battlefield:east_team_origin()
     self.turns = {}
@@ -87,7 +83,8 @@ function EncounterState:update(_)
 
     --Lado dos herois e true (meio estranho de ler o codigo assim)
     if _G.select == "monster" then
-        while currentChar:get_side() and _G.storeQuest == false do
+        while (currentChar:get_side() or currentChar:get_hp() <= 0)
+              and _G.storeQuest == false do
             self.next_turn = (self.next_turn % #self.turns) + 1
             currentChar = self.turns[self.next_turn]
         end
@@ -107,7 +104,7 @@ function EncounterState:update(_)
 end
 
 
-local combat = {}
+--local combat = {}
 _G.fightState = true
 
 
@@ -122,9 +119,9 @@ function EncounterState:resume(params)
         end
 
     else
-        local tab = {}
+        local tab
         if _G.storeQuest  then _G.contImg = 1 end
-        local str = ""
+        local str
 
 
         for _, j in ipairs(_G.combat) do
@@ -133,17 +130,13 @@ function EncounterState:resume(params)
             local char1 = tab[1]
             local char2 = tab[2]
 
-            if(Clash.acerto(char1:get_uncertainty()) and
-                    char1:get_hp() > 0 and char2:get_hp() > 0) then
+            if Clash.acerto(char1:get_uncertainty()) and
+                    char1:get_hp() > 0 and char2:get_hp() > 0 then
                 char2:hit(char1:get_power())
-                --print("heroi acertou \nvida inimigo:", char2:get_hp())
-                --if(char2:get_hp() <= 0) then break end
             end
-            if(Clash.acerto(char2:get_uncertainty()) and
-                    char1:get_hp() > 0 and char2:get_hp() > 0) then
+            if Clash.acerto(char2:get_uncertainty()) and
+                    char1:get_hp() > 0 and char2:get_hp() > 0 then
                 char1:hit(char2:get_power())
-                --print("inimigo acertou \nvida heroi:", char1:get_hp())
-                --if(char1:get_hp() <= 0) then break end
             end
 
             _G.heros[char1:get_index()] = char1
@@ -154,27 +147,13 @@ function EncounterState:resume(params)
         _G.combat = {}
         _G.heroSelect = {}
 
-        local party = _G.quest.party
+        --local party = _G.quest.party
         local encounter = params.encounter
         print(encounter)
         print()
         local numOfMonsters = 0
         local numOfHeros = 0
-        print("heros inserted = {")
-        for i, hero in pairs(_G.heros) do
-            print(i, hero)
-        end
-        print("}\nmonsters inserted = {")
-        for i, hero in pairs(_G.monsters) do
-            print(i, hero)
-        end
-        print("}\n")
 
-        print(encounter)
-
-        print()
-        local numOfMonsters = 0
-        local numOfHeros = 0
         print("heros inserted = {")
         for i, hero in pairs(_G.heros) do
             numOfHeros = numOfHeros + 1
@@ -229,10 +208,9 @@ function EncounterState:resume(params)
             str = "HEROES LOST - press esc"
             self:view():add('message', message)
             message:set(str)
-            str = ""
 
             print("OS HERÓIS PERDERAM")
-            imSelec:set_image("Game Over")
+            imSelec.set_image("Game Over")
             love.event.wait(100000)
             love.event.quit()
         end
@@ -241,7 +219,7 @@ function EncounterState:resume(params)
             print("OS HERÓIS VENCERAM")
             Sound.play('victory')
             --local num = math.random(1,3)
-            imSelec:set_image("Default")
+            imSelec.set_image("Default")
             _G.monsters = {}
             self:pop(params)
         end

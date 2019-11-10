@@ -1,4 +1,4 @@
---
+-- luacheck: globals love
 -- Created by IntelliJ IDEA.
 -- User: alexandre
 -- Date: 25/10/2019
@@ -13,7 +13,7 @@ local TESTSCREEN = {}
             --splash.onDone = function() print "DONE" end
         end
 
-        function love.update(dt)
+        function love.update(_)
             --splash:update(dt)
         end
 
@@ -26,5 +26,3 @@ local TESTSCREEN = {}
         end
 
 return TESTSCREEN
-
-

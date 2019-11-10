@@ -2,7 +2,7 @@
 return {
   name = "Taurus Sign",
   appearance = 'taurus',
-  max_hp = 200000000000,
+  max_hp = 2000,
   hero = true,
   combat = {
     power = 1000,
@@ -10,7 +10,7 @@ return {
     velocity = 8,
   },
   uncertainty = {
-    hitChance = 80,
+    hitChance = 50,
     hitCritical = 20,
   },
   skill={

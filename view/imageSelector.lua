@@ -17,7 +17,7 @@ local scene = {
   ["Game Over"] = { img = 4 }
 }
 
-function IMASELECTOR:set_image(name)
+function IMASELECTOR.set_image(name)
 
     if name then
       _G.contImg = scene[name].img or scene["Default"].img
