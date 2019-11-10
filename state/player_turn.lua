@@ -76,6 +76,12 @@ local bfbox = battlefield.bounds
 local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
 
 function PlayerTurnState:on_keypressed(key)
+
+  if key == "escape" then
+      love.event.quit()
+      return
+  end
+
   local allItems = self.character:getAllItems()
   local allSkills = self.character:getAllSkills()
 
@@ -194,7 +200,7 @@ function PlayerTurnState:on_keypressed(key)
       , message, view)
     table.insert(merchandise, char)
   elseif key == "escape" then
-    love.event.quit()
+    --love.event.quit()
   end
 end
 
