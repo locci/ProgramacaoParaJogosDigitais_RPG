@@ -119,12 +119,20 @@ function PlayerTurnState:on_keypressed(key)
   elseif key == 'return' then
     local option = TURN_OPTIONS[self.menu:current_option()]
     if option == "Skill" then
-      local SKILLS = {'Skill01', 'Skill02', 'Skill03', 'Back'}
+      local SKILLS = {}
+      for _,item in pairs(self.character:get_skill()) do
+        table.insert(SKILLS, item.name)
+      end
+      table.insert(SKILLS, "Back")
       TURN_OPTIONS = SKILLS
       self.menu = ListMenu(SKILLS)
       self:_show_menu()
     elseif option == "Item" then
-      local ITEMS = {'Item01', 'Item02', 'Item03', 'Back'}
+      local ITEMS = {}
+      for _,item in pairs(self.character:get_item()) do
+        table.insert(ITEMS, item.name)
+      end
+      table.insert(ITEMS, "Back")
       TURN_OPTIONS = ITEMS
       self.menu = ListMenu(ITEMS)
       self:_show_menu()
@@ -148,21 +156,6 @@ function PlayerTurnState:on_keypressed(key)
     else
       return self:pop({ action = option, character = self.character })
     end
-  --[[elseif key == 'h' then
-    if self.character:get_side() and combat[1] == nil and _G.fightState and
-            checkTable(self.character) then
-      Sound:play('charge')
-      table.insert(_G.heroSelect, self.character)
-      table.insert(combat, self.character)
-      self:view():add('message', message)
-      local str = "You select The " .. self.character:get_name()
-      message:set(str)
-    end
-    if hp <= 0 then
-      self:view():add('message', message)
-      local str = 'You are dead!!! Get out!!!'
-      message:set(str)
-    end]]
   elseif key == 'b' and _G.storeQuest then
     local view = self:view():add('message', message)
     local char = STORE.select_buyer(self.character, merchandise, checkTable(self.character)
