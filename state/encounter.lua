@@ -119,12 +119,20 @@ function EncounterState:resume(params)
 
             if Clash.acerto(char1:get_uncertainty()) and
                     char1:get_hp() > 0 and char2:get_hp() > 0 then
-                char2:hit(char1:get_power())
+                local pow = char1:get_power()
+                local item = char1:get_item().power
+                local skill = char1:get_skill().hitChance
+                local damage = pow + item + skill
+                char2:hit(damage)
                 str = str .. "Hit " .. char2:get_name() .. " New HP " .. char2:get_hp() .. "\n"
             end
             if Clash.acerto(char2:get_uncertainty()) and
                     char1:get_hp() > 0 and char2:get_hp() > 0 then
-                char1:hit(char2:get_power())
+                local pow = char2:get_power()
+                local item = char2:get_item().power
+                local skill = char2:get_skill().hitChance
+                local damage = pow + item + skill
+                char1:hit(damage)
                 str = str .. "Hit " .. char1:get_name() .. " New HP " .. char1:get_hp() .. "\n"
             end
 

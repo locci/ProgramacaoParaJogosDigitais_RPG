@@ -73,6 +73,8 @@ local bfbox = battlefield.bounds
 local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
 
 function PlayerTurnState:on_keypressed(key)
+  local allItems = self.character:getAllItems()
+  local allSkills = self.character:getAllSkills()
 
   if key == 'down' then
     Sound.play('updown')
@@ -119,29 +121,45 @@ function PlayerTurnState:on_keypressed(key)
     local option = TURN_OPTIONS[self.menu:current_option()]
     if option == "Skill" then
       local SKILLS = {}
-      for _,item in pairs(self.character:get_skill()) do
+      for _,item in pairs(allSkills) do
         table.insert(SKILLS, item.name)
       end
       table.insert(SKILLS, "Back")
       TURN_OPTIONS = SKILLS
       self.menu = ListMenu(SKILLS)
       self:_show_menu()
+      _G.lastOption = "Skill"
     elseif option == "Item" then
       local ITEMS = {}
-      for _,item in pairs(self.character:get_item()) do
+      for _,item in pairs(allItems) do
         table.insert(ITEMS, item.name)
       end
       table.insert(ITEMS, "Back")
       TURN_OPTIONS = ITEMS
       self.menu = ListMenu(ITEMS)
       self:_show_menu()
+      _G.lastOption = "Item"
     elseif option == "Back" then
       TURN_OPTIONS = DEFAULT_OPTIONS
       self.menu = ListMenu(TURN_OPTIONS)
       self:_show_menu()
-    else
+    elseif option == "Fight" or option == "Run" then
       return self:pop({ action = option, character = self.character })
+
+    elseif _G.lastOption == "Skill" then
+      local skill = allSkills[option]
+      self.character:set_skill(skill)
+      self:view():add('message', message)
+      local str = skill.name .. ' selected'
+      message:set(str)
+    elseif _G.lastOption == "Item" then
+      local item = allItems[option]
+      self.character:set_item(item)
+      self:view():add('message', message)
+      local str = item.name .. ' selected'
+      message:set(str)
     end
+
   elseif key == 'h' then
     if self.character:get_side() and combat[1] == nil and _G.fightState and
             checkTable(self.character) then
