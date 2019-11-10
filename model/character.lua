@@ -124,7 +124,7 @@ end
 function Character:get_skill()
   local sel = self.spec.selectedSkill
   if sel then return sel
-  else return {hitChance=0}
+  else return {power=0}
   end
 end
 

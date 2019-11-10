@@ -30,14 +30,19 @@ function love.update(dt)
   _game.view:update(dt)
   if _G.gameOver then
     print("GAME OVER")
-    love.event.quit()
+    --love.event.quit()
   end
 end
 
 function love.draw()
   local g = love.graphics
-   g.draw(_G.image[_G.contImg])
-  _game.view:draw()
+  if _G.gameOver == false then
+    g.draw(_G.image[_G.contImg])
+    _game.view:draw()
+  else
+    g.draw(_G.image[4])
+    _game.view:draw()
+  end
 end
 
 for eventname, _ in pairs(love.handlers) do

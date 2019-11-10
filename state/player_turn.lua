@@ -44,10 +44,12 @@ function PlayerTurnState:_show_cursor()
 end
 
 function PlayerTurnState:_show_stats()
-  local bfbox = self:view():get('battlefield').bounds
-  local position = Vec(bfbox.right + 16, bfbox.top)
-  local char_stats = CharacterStats(position, self.character)
-  self:view():add('char_stats', char_stats)
+  if _G.gameOver == false then
+    local bfbox = self:view():get('battlefield').bounds
+    local position = Vec(bfbox.right + 16, bfbox.top)
+    local char_stats = CharacterStats(position, self.character)
+    self:view():add('char_stats', char_stats)
+  end
 end
 
 function PlayerTurnState:leave()

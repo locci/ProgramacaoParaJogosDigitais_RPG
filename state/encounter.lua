@@ -117,7 +117,7 @@ function EncounterState:resume(params)
                     char1:get_hp() > 0 and char2:get_hp() > 0 then
                 local pow = char1:get_power()
                 local item = char1:get_item().power
-                local skill = char1:get_skill().hitChance
+                local skill = char1:get_skill().power
                 local damage = pow + item + skill
                 char2:hit(damage)
                 str = str .. "Hit " .. char2:get_name() .. " New HP " .. char2:get_hp() .. "\n"
@@ -126,7 +126,7 @@ function EncounterState:resume(params)
                     char1:get_hp() > 0 and char2:get_hp() > 0 then
                 local pow = char2:get_power()
                 local item = char2:get_item().power
-                local skill = char2:get_skill().hitChance
+                local skill = char2:get_skill().power
                 local damage = pow + item + skill
                 char1:hit(damage)
                 str = str .. "Hit " .. char1:get_name() .. " New HP " .. char1:get_hp() .. "\n"
@@ -187,18 +187,21 @@ function EncounterState:resume(params)
             str = "HEROES LOST - press esc"
             self:view():add('message', message)
             message:set(str)
-            imSelec.set_image("Store")
+
+            imSelec.set_image("Game Over")
+            _G.gameOver = true
+
         end
 
         if monstersAlive == false then
             Sound.play('victory')
-            imSelec.set_image("Default                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ")
+            imSelec.set_image("Default")
             _G.monsters = {}
             self:pop(params)
         end
 
         if _G.storeQuest then
-            return self:pop(params)
+          return self:pop(params)
         end
 
     end
