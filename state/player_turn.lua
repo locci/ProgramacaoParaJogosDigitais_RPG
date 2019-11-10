@@ -23,7 +23,7 @@ function PlayerTurnState:_init(stack)
 end
 
 function PlayerTurnState:enter(params)
-  self.character = params.current_character
+  self.character = params.currentChar
   self:_show_menu()
   self:_show_cursor()
   self:_show_stats()
@@ -39,7 +39,7 @@ end
 function PlayerTurnState:_show_cursor()
   local atlas = self:view():get('atlas')
   local sprite_instance = atlas:get(self.character)
-  local cursor   = TurnCursor(sprite_instance)
+  local cursor = TurnCursor(sprite_instance)
   self:view():add('turn_cursor', cursor)
 end
 
@@ -92,6 +92,18 @@ function PlayerTurnState:on_keypressed(key)
       self:view():add('message', message)
       message:set("Combat selected: " .. combat[1]:get_name() .. " vs " .. combat[2]:get_name())
       combat = {}
+    end
+  elseif key == 'h' then
+    if self.character:get_side() and combat[1] == nil and _G.fightState and
+            checkTable(self.character) then
+      Sound:play('sword')
+      table.insert(_G.heroSelect, self.character)
+      --table.insert(_G.combat, self.character)
+      --print("heroi inserido na batalha")
+      table.insert(combat, self.character)
+      self:view():add('message', message)
+      local str = self.character:get_name() .. " selected"
+      message:set(str)
     end
   elseif key == 'i'  and _G.storeQuest then
     self:view():add('message', message)

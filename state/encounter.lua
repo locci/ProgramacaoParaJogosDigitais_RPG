@@ -1,4 +1,5 @@
 --local Combat = require 'combat.combat_quest'
+
 local Vec = require 'common.vec'
 local MessageBox = require 'view.message_box'
 local SpriteAtlas = require 'view.sprite_atlas'
@@ -139,6 +140,7 @@ function EncounterState:resume(params)
             print("inserting\n")
             _G.heros[char1:get_index()] = char1
             _G.monsters[char2:get_index()] = char2
+
             print("\ninserted")
 
             Fight:update()
@@ -237,8 +239,6 @@ function EncounterState:resume(params)
             _G.monsters = {}
             return self:pop(params)
         end
-
-
 
         if _G.storeQuest then
             return self:pop(params)
