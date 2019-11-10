@@ -13,7 +13,8 @@ return {
     hero  = false,
     item  = true,
     price = 10,
-    gain = 5
+    gain = 5,
+    hero = false,
 }
 
 

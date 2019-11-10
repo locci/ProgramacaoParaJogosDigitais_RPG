@@ -12,13 +12,12 @@ function FollowQuestState:_init(stack)
 end
 
 _G.lastCharIndex = 0
+
 function FollowQuestState:enter(params)
   local quest = params.quest
   self.encounters = quest.encounters
   self.next_encounter = 1
   self.party = {}
-
-
   for i, character_name in ipairs(quest.party) do
     local character_spec = require('database.characters.' .. character_name)
     self.party[i] = Character(character_spec)

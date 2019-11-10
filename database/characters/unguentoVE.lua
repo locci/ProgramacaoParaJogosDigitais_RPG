@@ -20,7 +20,8 @@ return {
     hero   =false,
     item   = true,
     price  = 2,
-    gain   = 1
+    gain   = 1,
+    hero = false,
 }
 
 

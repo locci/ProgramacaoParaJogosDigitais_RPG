@@ -103,6 +103,10 @@ function Character:set_item(item)
   self.spec.selectedItem = item
 end
 
+function Character:get_item_store()
+    return self.spec.item
+end
+
 function Character:get_item()
   local sel = self.spec.selectedItem
   if sel then return sel

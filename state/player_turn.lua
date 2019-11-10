@@ -145,7 +145,6 @@ function PlayerTurnState:on_keypressed(key)
       self:_show_menu()
     elseif option == "Fight" or option == "Run" then
       return self:pop({ action = option, character = self.character })
-
     elseif _G.lastOption == "Skill" then
       local skill = allSkills[option]
       self.character:set_skill(skill)
@@ -159,7 +158,6 @@ function PlayerTurnState:on_keypressed(key)
       local str = item.name .. ' selected'
       message:set(str)
     end
-
     option  = TURN_OPTIONS[self.menu:current_option()]
     if option == "Item" then
       local ITEM = {'Item01', 'Item02', 'Item03', 'Back'}
@@ -173,7 +171,6 @@ function PlayerTurnState:on_keypressed(key)
     else
       return self:pop({ action = option, character = self.character })
     end
-
   elseif key == 'h' then
     if self.character:get_side() and combat[1] == nil and _G.fightState and
             checkTable(self.character) then
@@ -188,7 +185,6 @@ function PlayerTurnState:on_keypressed(key)
       self:view():add('message', message)
       local str = 'You are dead!!! Get out!!!'
       message:set(str)
-
     end
   elseif key == 'b' and _G.storeQuest then
     local view = self:view():add('message', message)

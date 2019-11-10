@@ -17,7 +17,7 @@ function CharacterStats:draw()
   g.translate(self.position:get())
   g.print(self.character:get_name())
   g.translate(0, self.font:getHeight())
-   if self.character:getAllItems() == true then
+   if self.character:get_item_store() then
       local strPR = ("Price: %d"):format(self.character:get_price())
       local strGA = ("Gain: %d"):format(self.character:get_gain())
       g.print((strPR .. "\n" .. strGA):format(self.character:get_hp()))

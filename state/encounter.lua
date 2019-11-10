@@ -109,14 +109,10 @@ function EncounterState:resume(params)
         local tab
         if _G.storeQuest  then _G.contImg = 1 end
         local str = ""
-
-
         for _, j in ipairs(_G.combat) do
-
             tab = j
             local char1 = tab[1]
             local char2 = tab[2]
-
             if Clash.acerto(char1:get_uncertainty()) and
                     char1:get_hp() > 0 and char2:get_hp() > 0 then
                 local pow = char1:get_power()
@@ -135,17 +131,14 @@ function EncounterState:resume(params)
                 char1:hit(damage)
                 str = str .. "Hit " .. char1:get_name() .. " New HP " .. char1:get_hp() .. "\n"
             end
-
             _G.heros[char1:get_index()] = char1
             _G.monsters[char2:get_index()] = char2
-
             love.timer.sleep(1)
         end
 
         self:view():add('message', message)
         message:set(str)
         --local victory =  _G.combat
-
         _G.combat = {}
         _G.heroSelect = {}
 
@@ -195,12 +188,12 @@ function EncounterState:resume(params)
             self:view():add('message', message)
             message:set(str)
             imSelec.set_image("Store")
-            _G.gameOver = true
+            --_G.gameOver = true
         end
 
         if monstersAlive == false then
             Sound.play('victory')
-            imSelec.set_image("Default")
+            imSelec.set_image("Default                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ")
             _G.monsters = {}
             self:pop(params)
         end
