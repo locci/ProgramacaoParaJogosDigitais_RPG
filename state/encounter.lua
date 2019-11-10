@@ -52,6 +52,9 @@ function EncounterState:enter(params)
     for i, character in ipairs(params.party) do
         local pos = party_origin + Vec(0, 1) * CHARACTER_GAP * (i - 1)
         self.turns[i] = character
+        if character:get_side() then
+          table.insert(_G.allHeros, character)
+        end
         atlas:add(character, pos, character:get_appearance())
         n = n + 1
         table.insert(_G.hero, character)
@@ -83,9 +86,20 @@ function EncounterState:update(_)
   local currentChar = self.turns[self.next_turn]
 
   --Lado dos herois e true (meio estranho de ler o codigo assim)
-  while currentChar:get_side() and _G.storeQuest == false do
-    self.next_turn = (self.next_turn % #self.turns) + 1
-    currentChar = self.turns[self.next_turn]
+  if _G.select == "monster" then
+    while currentChar:get_side() and _G.storeQuest == false do
+      self.next_turn = (self.next_turn % #self.turns) + 1
+      currentChar = self.turns[self.next_turn]
+    end
+  elseif _G.select == "hero" and _G.storeQuest == false then
+    local maxV = _G.allHeros[1]:get_velocity()
+    local index = 1
+    for i, hero in pairs(_G.allHeros) do
+      if (hero:get_velocity() > maxV) and hero:get_hp() > 0 then
+        index = i
+      end
+    end
+    currentChar = _G.allHeros[index]
   end
   local params = { currentChar = currentChar }
   return self:push('player_turn', params)
@@ -217,7 +231,7 @@ function EncounterState:resume(params)
             str = ""
 
             print("OS HERÓIS PERDERAM")
-            IMASELECTOR:set_image(4)
+            IMASELECTOR:set_image("Game Over")
             love.event.wait(10)
             love.event.quit()
         end
@@ -226,7 +240,7 @@ function EncounterState:resume(params)
             print("OS HERÓIS VENCERAM")
             Sound.play('victory')
             --local num = math.random(1,3)
-            imSelec:set_iamge(1)
+            imSelec:set_image("Default")
             _G.monsters = {}
             self:pop(params)
         end

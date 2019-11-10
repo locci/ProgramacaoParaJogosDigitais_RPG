@@ -68,6 +68,8 @@ function ChooseQuestState:on_keypressed(key)
     _G.whichEncounter = 1
     _G.heros = {}
     _G.monsters = {}
+    _G.allHeros = {}
+    _G.select = "hero"
     _G.numberOfHeros = #_G.quest.party
     return self:push('follow_quest', params)
   elseif key == 'escape' then
