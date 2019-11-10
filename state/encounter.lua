@@ -92,10 +92,11 @@ function EncounterState:update(_)
             currentChar = self.turns[self.next_turn]
         end
     elseif _G.select == "hero" and _G.storeQuest == false then
-        local maxV = _G.allHeros[1]:get_velocity()
-        local index = 1
+        local maxV = 0
+        local index = 0
         for i, hero in pairs(_G.allHeros) do
             if (hero:get_velocity() > maxV) and hero:get_hp() > 0 then
+                maxV = hero:get_velocity()
                 index = i
             end
         end
@@ -231,8 +232,8 @@ function EncounterState:resume(params)
             str = ""
 
             print("OS HERÓIS PERDERAM")
-            IMASELECTOR:set_image("Game Over")
-            love.event.wait(10)
+            imSelec:set_image("Game Over")
+            love.event.wait(100000)
             love.event.quit()
         end
 
