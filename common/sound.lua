@@ -19,7 +19,7 @@ local SOUND = {}
      if soundName == 'monster' then
          local src1 = love.audio.newSource("assets/sound/monster.ogg", "static")
          src1:setVolume(0.9)
-         src1:setPitch(3)
+         --src1:setPitch(3)
          src1:play()
      end
      if soundName == 'coins' then
