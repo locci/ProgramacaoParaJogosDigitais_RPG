@@ -109,7 +109,7 @@ function PlayerTurnState:on_keypressed(key)
       table.insert(_G.heroSelect, self.character)
       table.insert(combat, self.character)
       self:view():add('message', message)
-      local str2 = Enviroment:calcEnvEf(_G.environment, self.character)
+      local str2 = Enviroment.calcEnvEf(_G.environment, self.character)
       local str = self.character:get_name() .. " selected \n".. str2
       message:set(str)
       _G.select = "monster"
@@ -199,8 +199,6 @@ function PlayerTurnState:on_keypressed(key)
     local char = STORE.select_buyer(self.character, merchandise, checkTable(self.character)
       , message, view)
     table.insert(merchandise, char)
-  elseif key == "escape" then
-    --love.event.quit()
   end
 end
 

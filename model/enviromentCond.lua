@@ -8,7 +8,7 @@
 
 local ENVIROMENT = {}
 
-function ENVIROMENT:calcEnvEf(envi, char, effect)
+function ENVIROMENT.calcEnvEf(envi, char, _)
 
 
     if envi == 'neve' and char:get_environment() == 'neve' then
@@ -26,4 +26,3 @@ function ENVIROMENT:calcEnvEf(envi, char, effect)
 end
 
 return ENVIROMENT
-

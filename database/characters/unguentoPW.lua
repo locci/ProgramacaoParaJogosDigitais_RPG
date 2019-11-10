@@ -14,9 +14,4 @@ return {
     item  = true,
     price = 10,
     gain = 5,
-    hero = false,
 }
-
-
-
-

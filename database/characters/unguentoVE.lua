@@ -1,11 +1,4 @@
---
--- Created by IntelliJ IDEA.
--- User: alexandre
--- Date: 30/10/2019
--- Time: 09:43
--- To change this template use File | Settings | File Templates.
---
---
+
 -- Created by IntelliJ IDEA.
 -- User: alexandre
 -- Date: 30/10/2019
@@ -21,9 +14,4 @@ return {
     item   = true,
     price  = 2,
     gain   = 1,
-    hero = false,
 }
-
-
-
-

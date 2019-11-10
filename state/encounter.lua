@@ -70,14 +70,14 @@ function EncounterState:leave()
 end
 
 function EncounterState:update(_)
-    self.next_turn = (self.next_turn % #self.turns) + 1
     local currentChar = self.turns[self.next_turn]
+    self.next_turn = (self.next_turn % #self.turns) + 1
 
     if _G.select == "monster" then
         while (currentChar:get_side() or currentChar:get_hp() <= 0)
               and _G.storeQuest == false do
-            self.next_turn = (self.next_turn % #self.turns) + 1
             currentChar = self.turns[self.next_turn]
+            self.next_turn = (self.next_turn % #self.turns) + 1
         end
     elseif _G.select == "hero" and _G.storeQuest == false then
         local maxV = 0
