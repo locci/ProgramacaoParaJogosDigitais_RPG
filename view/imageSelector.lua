@@ -20,7 +20,11 @@ local scene = {
 function IMASELECTOR.set_image(name)
 
     if name then
-      _G.contImg = scene[name].img or scene["Default"].img
+      if scene[name] then
+        _G.contImg = scene[name].img
+      else
+        _G.contImg = scene["Default"].img
+      end
     end
     _G.storeQuest = (name == "Store")
 

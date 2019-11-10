@@ -7,7 +7,6 @@ local BattleField = require 'view.battlefield'
 local CharacterStats = require 'view.character_stats'
 local TurnCursor = require 'view.turn_cursor'
 local ListMenu = require 'view.list_menu'
---local Sound = require 'common.sound'
 local STORE = require 'model.store'
 local Sound = require 'common.sound'
 
@@ -82,13 +81,10 @@ function PlayerTurnState:on_keypressed(key)
     Sound.play('updown')
     self.menu:previous()
   elseif key == 'm'  and _G.fightState then
-    --print(self.character:get_side() == false, combat[1] ~= nil, combat[2] == nil)
     if self.character:get_side() == false and combat[1] ~= nil and combat[2] == nil then
-      print("monsterrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
       Sound:play('monster')
       table.insert(combat, self.character)
       table.insert(_G.combat, combat)
-      --table.insert(_G.combat, self.character)
       self:view():add('message', message)
       message:set("Combat selected: " .. combat[1]:get_name() .. " vs " .. combat[2]:get_name())
       combat = {}
@@ -131,7 +127,6 @@ function PlayerTurnState:on_keypressed(key)
       return self:pop({ action = option, character = self.character })
     end
     option  = TURN_OPTIONS[self.menu:current_option()]
-    print(option)
     if option == "Item" then
       local ITEM = {'Item01', 'Item02', 'Item03', 'Back'}
       TURN_OPTIONS = ITEM
@@ -149,8 +144,6 @@ function PlayerTurnState:on_keypressed(key)
             checkTable(self.character) then
       Sound:play('charge')
       table.insert(_G.heroSelect, self.character)
-      --table.insert(_G.combat, self.character)
-      --print("heroi inserido na batalha")
       table.insert(combat, self.character)
       self:view():add('message', message)
       local str = "You select The " .. self.character:get_name()

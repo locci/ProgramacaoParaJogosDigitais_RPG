@@ -9,7 +9,6 @@ local Clash = require 'clashCalc'
 local imSelec = require 'view.imageSelector'
 local Sound = require 'common.sound'
 
-
 _G.hero   = {}
 _G.noHero = {}
 
@@ -17,22 +16,15 @@ local EncounterState = require 'common.class' (State)
 
 local CHARACTER_GAP = 96
 
---[[local MESSAGES = {
-    Fight = "%s attacked ",
-    Skill = "%s unleashed a skill",
-    Item = "%s used an item",
-}]]
 
 local battlefield = BattleField()
 local bfbox = battlefield.bounds
 local message = MessageBox(Vec(bfbox.left, bfbox.bottom + 16))
 
---local Fight
 function EncounterState:_init(stack)
     self:super(stack)
     self.turns = nil
     self.next_turn = nil
-    --Fight = FightState(stack)
 end
 
 function EncounterState:enter(params)
@@ -81,7 +73,6 @@ function EncounterState:update(_)
     self.next_turn = (self.next_turn % #self.turns) + 1
     local currentChar = self.turns[self.next_turn]
 
-    --Lado dos herois e true (meio estranho de ler o codigo assim)
     if _G.select == "monster" then
         while (currentChar:get_side() or currentChar:get_hp() <= 0)
               and _G.storeQuest == false do
@@ -103,15 +94,11 @@ function EncounterState:update(_)
     return self:push('player_turn', params)
 end
 
-
---local combat = {}
 _G.fightState = true
-
 
 function EncounterState:resume(params)
 
     if params.action ~= 'Run' then
-        print(params.action)
         if params.action == 'Fight' then
             _G.fightState = true
         else
@@ -147,36 +134,23 @@ function EncounterState:resume(params)
         _G.combat = {}
         _G.heroSelect = {}
 
-        --local party = _G.quest.party
-        local encounter = params.encounter
-        print(encounter)
-        print()
+
         local numOfMonsters = 0
         local numOfHeros = 0
 
-        print("heros inserted = {")
-        for i, hero in pairs(_G.heros) do
+        for _, _ in pairs(_G.heros) do
             numOfHeros = numOfHeros + 1
-            print(i, hero)
         end
-        print("}\nmonsters inserted = {")
-        for i, monster in pairs(_G.monsters) do
-            numOfMonsters = numOfMonsters + 1
-            print(i, monster)
-        end
-        print("}\n")
 
-        print("Numero total de herois: ", _G.numberOfHeros)
-        print("Herois que apareceram: ", numOfHeros)
-        print("Numero total de monstros: ", _G.numberOfMonsters)
-        print("Monstros que apareceram: ", numOfMonsters)
+        for _, _ in pairs(_G.monsters) do
+            numOfMonsters = numOfMonsters + 1
+        end
 
         _G.whichEncounter = _G.whichEncounter + 1
         local herosAlive, monstersAlive = true, true
 
         if _G.numberOfHeros == numOfHeros then
             local dead = 0
-            print("todos os herois surgiram")
             for _, hero in pairs(_G.heros) do
                 local hp = hero:get_hp()
                 if  hp <= 0 then
@@ -186,12 +160,10 @@ function EncounterState:resume(params)
             if dead == numOfHeros then
                 herosAlive = false
             end
-            print("Herois Mortos = ", dead)
         end
 
         if _G.numberOfMonsters == numOfMonsters then
             local dead = 0
-            print("todos os monstros surgiram")
             for _, monster in pairs(_G.monsters) do
                 local hp = monster:get_hp()
                 if  hp <= 0 then
@@ -201,88 +173,23 @@ function EncounterState:resume(params)
             if dead == numOfMonsters then
                 monstersAlive = false
             end
-            print("Monstros Mortos = ", dead)
         end
 
         if herosAlive == false then
             str = "HEROES LOST - press esc"
             self:view():add('message', message)
             message:set(str)
-
-            print("OS HERÓIS PERDERAM")
-            imSelec.set_image("Game Over")
-            love.event.wait(100000)
-            love.event.quit()
+            imSelec.set_image("Store")
+            _G.gameOver = true
         end
 
         if monstersAlive == false then
-            print("OS HERÓIS VENCERAM")
             Sound.play('victory')
-            --local num = math.random(1,3)
             imSelec.set_image("Default")
             _G.monsters = {}
             self:pop(params)
         end
 
-        --[[local numOfMonsters = 0
-        local numOfHeros = 0
-        print("\nheros inserted = {")
-        for i, hero in pairs(_G.heros) do
-          numOfHeros = numOfHeros + 1
-          print(i, hero)
-        end
-        print("}\nmonsters inserted = {")
-        for i, monster in pairs(_G.monsters) do
-          numOfMonsters = numOfMonsters + 1
-          print(i, monster)
-        end
-        print("}\n")
-        print("Numero total de herois: ", _G.numberOfHeros)
-        print("Herois que apareceram: ", numOfHeros)
-        print("Numero total de monstros: ", _G.numberOfMonsters)
-        print("Monstros que apareceram: ", numOfMonsters)
-        _G.whichEncounter = _G.whichEncounter + 1
-        local herosAlive, monstersAlive = true, true
-        if _G.numberOfHeros == numOfHeros then
-          local dead = 0
-          print("todos os herois surgiram")
-          for _, hero in pairs(_G.heros) do
-                  local hp = hero:get_hp()
-                  if  hp <= 0 then
-                      dead = dead + 1
-                end
-           end
-           if dead == numOfHeros then
-                  herosAlive = false
-           end
-           print("Herois Mortos = ", dead)
-        end
-        if _G.numberOfMonsters == numOfMonsters then
-          local dead = 0
-          print("todos os monstros surgiram")
-          for _, monster in pairs(_G.monsters) do
-              local hp = monster:get_hp()
-              if  hp <= 0 then
-                  dead = dead + 1
-              end
-          end
-          if dead == numOfMonsters then
-              monstersAlive = false
-          end
-          print("Monstros Mortos = ", dead)
-        end
-        if herosAlive == false then
-          imSelec:set_image(nil)
-          print("OS HERÓIS PERDERAM")
-          IMASELECTOR:set_image(4)
-          love.event.wait(10)
-          love.event.quit()
-        end
-        if monstersAlive == false then
-          print("OS HERÓIS VENCERAM")
-          _G.monsters = {}
-          self:pop(params)
-        end]]
         if _G.storeQuest then
             return self:pop(params)
         end

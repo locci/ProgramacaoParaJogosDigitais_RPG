@@ -15,6 +15,7 @@ function love.load()
   _G.image[2] = love.graphics.newImage('assets/textures/redsonja.jpg')
   _G.image[3] = love.graphics.newImage('assets/textures/icegiant.jpg')
   _G.image[4] = love.graphics.newImage('assets/textures/gameOver.jpg')
+  _G.gameOver = false
   _game = {
     view = View()
   }
@@ -27,6 +28,10 @@ function love.update(dt)
   g.setBackgroundColor(0,0,250)
   _stack:update(dt)
   _game.view:update(dt)
+  if _G.gameOver then
+    print("GAME OVER")
+    love.event.quit()
+  end
 end
 
 function love.draw()

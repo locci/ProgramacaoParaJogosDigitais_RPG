@@ -5,7 +5,7 @@ return {
   max_hp = 1000,
   hero = false,
   combat = {
-    power = 300,
+    power = 3000,
     resistance = 15,
     velocity = 8,
   },
