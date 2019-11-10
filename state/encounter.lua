@@ -138,7 +138,7 @@ function EncounterState:resume(params)
 
         self:view():add('message', message)
         message:set(str)
-        --local victory =  _G.combat
+        local victory =  _G.combat
         _G.combat = {}
         _G.heroSelect = {}
 
@@ -193,9 +193,15 @@ function EncounterState:resume(params)
 
         end
 
+
         if monstersAlive == false then
             Sound.play('victory')
             imSelec.set_image("Default")
+            --ajuste das moedas
+            for _, j in ipairs(victory) do
+                local win = j
+                win[1]:set_money_bonus(5)
+            end
             _G.monsters = {}
             self:pop(params)
         end

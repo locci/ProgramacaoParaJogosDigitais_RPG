@@ -8,7 +8,7 @@
 
 local ENVIROMENT = {}
 
-function ENVIROMENT.calcEnvEf(envi, char, _)
+function ENVIROMENT.calcEnvEf(envi, char)
 
 
     if envi == 'neve' and char:get_environment() == 'neve' then
