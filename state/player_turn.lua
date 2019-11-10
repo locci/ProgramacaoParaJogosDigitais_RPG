@@ -104,7 +104,7 @@ function PlayerTurnState:on_keypressed(key)
     end
   elseif key == 'h' then
     if self.character:get_side() and combat[1] == nil and _G.fightState and
-            checkTable(self.character) then
+            checkTable(self.character) and _G.storeQuest == false then
       Sound:play('sword')
       table.insert(_G.heroSelect, self.character)
       table.insert(combat, self.character)

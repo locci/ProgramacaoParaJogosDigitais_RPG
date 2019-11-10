@@ -75,9 +75,9 @@ function EncounterState:update(_)
 
     if _G.select == "monster" then
         while (currentChar:get_side() or currentChar:get_hp() <= 0)
-              and _G.storeQuest == false do
-            currentChar = self.turns[self.next_turn]
-            self.next_turn = (self.next_turn % #self.turns) + 1
+                  and _G.storeQuest == false do
+                currentChar = self.turns[self.next_turn]
+                self.next_turn = (self.next_turn % #self.turns) + 1
         end
     elseif _G.select == "hero" and _G.storeQuest == false then
         local maxV = 0
@@ -91,7 +91,9 @@ function EncounterState:update(_)
         currentChar = _G.allHeros[index]
     end
     local params = { currentChar = currentChar }
-    return self:push('player_turn', params)
+
+     return self:push('player_turn', params)
+
 end
 
 _G.fightState = true
@@ -104,7 +106,6 @@ function EncounterState:resume(params)
         else
             _G.fightState = false
         end
-
     else
         local tab
         if _G.storeQuest  then _G.contImg = 1 end

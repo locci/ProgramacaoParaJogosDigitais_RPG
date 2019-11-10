@@ -13,7 +13,6 @@ local STORE = {}
 local Sound = require 'common.sound'
 
 function STORE.select_buyer(character, merchandise, checkTable, message)
-
     if character:get_side() and merchandise[1] == nil and _G.storeQuest and
             checkTable then
         Sound.play('coins')
